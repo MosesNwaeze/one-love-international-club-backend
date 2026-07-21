@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Case Notification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f6f9fc;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      background-color: #004085;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    .footer {
+      background-color: #f1f1f1;
+      color: #555;
+      font-size: 12px;
+      text-align: center;
+      padding: 15px;
+    }
+
+    .case-details {
+      margin-top: 20px;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    .case-details th, .case-details td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 20px;
+      background-color: #28a745;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+
+    .btn:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>VDT System</h1>
+    <h2>New Case Notification</h2>
+  </div>
+  <div class="content">
+    <p>Hello <strong th:text="${recipientName}">Recipient Name</strong>,</p>
+
+    <p>A new case has been assigned to you:</p>
+
+    <table class="case-details">
+      <tr>
+        <th>Case ID</th>
+        <td th:text="${caseId}">Case Id</td>
+      </tr>
+      <tr>
+        <th>Title</th>
+        <td th:text="${caseTitle}">Case Title</td>
+      </tr>
+      <tr>
+        <th>Description</th>
+        <td th:text="${caseDescription}">Case Description</td>
+      </tr>
+      <tr>
+        <th>Priority</th>
+        <td th:text="${priority}">priority</td>
+      </tr>
+      <tr>
+        <th>Due Date</th>
+        <td th:text="${dueDate}">Due Date</td>
+      </tr>
+    </table>
+
+<!--    <a class="btn" th:href="${caseUrl}" target="_blank">View Case</a>-->
+
+    <p>If you have any questions, please contact your supervisor.</p>
+  </div>
+  <div class="footer">
+    <p>Case was sent by VDT Communications System</p>
+    <p>&copy; <span th:text="${currentYear}">2025</span> VDT. All rights reserved.</p>
+    <p style="font-size: 12px; margin-top: 10px;">
+      This is an automated case notification message. Please do not reply to this email.
+    </p>
+  </div>
+</div>
+</body>
+</html>

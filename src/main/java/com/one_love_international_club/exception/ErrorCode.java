@@ -1,0 +1,18 @@
+package com.one_love_international_club.exception;
+
+public enum ErrorCode {
+
+    ENTITY_NOT_FOUND,
+    DUPLICATE_KEY,
+    GENERAL_ERROR,
+    NOT_AUTHENTICATED,
+    UNAUTHORIZED,
+    INVALID_AUTH_TOKEN,
+    INVALID_2FA,
+    INVALID_REQUEST,
+    INTEGRITY_VIOLATION,
+    BAD_REQUEST,
+    INVALID_OPERATION,
+    VALIDATION_ERROR,
+    ACCESS_DENIED
+}

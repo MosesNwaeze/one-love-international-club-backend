@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  java-app:
+    image: vdt-erp:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${APP_PORT:-8080}:8080"
+
+volumes:
+  app-data:
+
+networks:
+  app-network:
+    driver: bridge

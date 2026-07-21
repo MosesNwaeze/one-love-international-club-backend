@@ -1,0 +1,35 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  DEPLOY_DIR: /opt/workspaceapp
+  JAR_NAME: backend.jar
+
+build:
+  stage: build
+  script:
+    - echo "Building the Spring Boot app"
+    - ./gradlew clean build -x test
+  artifacts:
+    paths:
+      - build/libs/*.jar
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
+      when: always
+
+deploy:
+  stage: deploy
+  needs: [build]
+  script:
+    - echo "Deploying to same server..."
+    - mkdir -p $DEPLOY_DIR
+    - cp $(ls build/libs/*.jar | grep -v plain | head -n 1) $DEPLOY_DIR/$JAR_NAME
+    - echo "Restarting the systemd service"
+    - sudo /bin/systemctl restart workspace-backend.service
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
+      when: always
+
+
+

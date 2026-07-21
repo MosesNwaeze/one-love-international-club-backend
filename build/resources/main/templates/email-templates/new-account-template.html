@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your VDT Account Has Been Created</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #4a86e8;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .credentials {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #4a86e8;
+        }
+        .contactEntity-type {
+            background-color: #e3f2fd;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .qr-code {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .qr-code img {
+            max-width: 200px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #4a86e8;
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777777;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Welcome to VDT</h1>
+    </div>
+    <div class="content">
+        <p>Hello <span th:text="${name}">User</span>,</p>
+
+        <p>Your VDT account has been successfully created. Please find your login credentials below:</p>
+
+        <div class="credentials">
+            <p><strong>Username/Email:</strong> <span th:text="${username}">username@example.com</span></p>
+            <p><strong>Password:</strong> <span th:text="${password}">password123</span></p>
+            <p><em>Note: You will be required to change this password upon your first login.</em></p>
+        </div>
+
+        <div class="contactEntity-type">
+            <p><strong>Account Type:</strong> <span th:text="${contactTypeEntity}">Individual</span></p>
+        </div>
+
+        <h3>Two-Factor Authentication Setup</h3>
+        <p>For added security, your account is configured with Two-Factor Authentication. Please scan the QR code below using an authenticator app like Google Authenticator or Authy:</p>
+
+        <div class="qr-code">
+            <img th:src="${qrCodeUrl}" alt="Two-Factor Authentication QR Code">
+        </div>
+
+        <p>You'll need to enter the verification code from your authenticator app when logging in.</p>
+
+        <a th:href="${baseUrl}" class="button" style="color: #00ff00;">Login to Your Account</a>
+
+        <p>If you have any questions or need assistance, please contactEntity support at support@vdtcomms.com.</p>
+
+        <p>Thank you,<br>VDT Team</p>
+    </div>
+    <div class="footer">
+        <p>&copy; 2025 VDT Systems. All rights reserved.</p>
+        <p>This email was sent to you because an account was created for you in the VDT system.</p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VDT Communication Message</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .content {
+            padding: 20px;
+        }
+        .message-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007bff;
+        }
+        .message-content {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 20px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 0 0 10px 10px;
+            color: #6c757d;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .group-badge {
+            background-color: #28a745;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            display: inline-block;
+        }
+        .sender-info {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>VDT Communication System</h1>
+        <p>You have received a new message</p>
+    </div>
+
+    <div class="content">
+        <div class="message-info">
+            <div class="sender-info">
+                <strong>From:</strong> <span th:text="${senderName}">Sender Name</span>
+            </div>
+
+            <div th:if="${isGroupMessage}" style="margin-top: 10px;">
+                <span class="group-badge">Group Message</span>
+                <strong style="margin-left: 10px;">Group:</strong> <span th:text="${groupName}">Group Name</span>
+            </div>
+
+            <div th:if="${subject}" style="margin-top: 10px;">
+                <strong>Subject:</strong> <span th:text="${subject}">Message Subject</span>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <strong>Date:</strong> <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}">Date</span>
+            </div>
+        </div>
+
+        <div class="message-content">
+            <h3>Message:</h3>
+            <div th:utext="${content}">
+                Message content will appear here...
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="#" class="btn" th:href="${baseUrl} + '/communication/messages'"
+               style="color: white; text-decoration: none;">
+                View in VDT System
+            </a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>This message was sent through the VDT Communication System</p>
+        <p>Please do not reply to this email directly. Use the VDT system to respond.</p>
+        <p>&copy; <span th:text="${currentYear}">2024</span> VDT ERP System. All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>

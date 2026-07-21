@@ -1,10 +1,5 @@
 package com.one_love_international_club.auth.entity;
 
-import com.one_love_international_club.dto.Status;
-import com.one_love_international_club.enums.Gender;
-import com.one_love_international_club.enums.MaritalStatus;
-import com.one_love_international_club.enums.Title;
-import com.one_love_international_club.enums.UserType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
+import com.one_love_international_club.enums.*;
+import com.one_love_international_club.dto.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

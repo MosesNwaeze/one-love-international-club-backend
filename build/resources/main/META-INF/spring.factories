@@ -1,0 +1,1 @@
+org.springframework.boot.env.EnvironmentPostProcessor=com.one_love_international_club.config.DotenvEnvironmentPostProcessor

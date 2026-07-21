@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Request Creation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .content {
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777777;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="content">
+        <p>Hello <span th:text="${name}">User</span>,</p>
+
+        <p>Survey request has been created successfully and assigned to your team</p>
+
+        <div>
+            <h3>Below are the details of the survey request</h3>
+            <p>Site Name: <span th:text="${siteName}">Site Name</span></p>
+            <p>Site Address: <span th:text="${siteAddress}">Site Name</span></p>
+        </div>
+
+        <p>If you have any questions or need assistance, please contact us at support@vdtcomms.com.</p>
+
+        <p>Thank you,<br>VDT Team</p>
+    </div>
+    <div class="footer">
+        <p>&copy; 2025 VDT Systems. All rights reserved.</p>
+        <p>This email was sent to you because an account was created for you in the VDT system.</p>
+    </div>
+</div>
+</body>
+</html>

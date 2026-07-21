@@ -1,0 +1,8 @@
+[phases.setup]
+nixPkgs = ["jdk21"]
+
+[phases.install]
+cmds = ["./gradlew build"]
+
+[phases.start]
+cmd = "java -Dserver.port=$PORT -jar build/libs/*.jar"

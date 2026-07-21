@@ -35,7 +35,5 @@ application-dev.properties
 ### VS Code ###
 .vscode/
 
-
 .env
-Dockerfile
 logs/

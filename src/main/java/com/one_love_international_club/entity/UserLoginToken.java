@@ -28,7 +28,7 @@ public class UserLoginToken {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_login_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @JdbcTypeCode(SqlTypes.CHAR)
     private UserLoginEntity userLogin;
 

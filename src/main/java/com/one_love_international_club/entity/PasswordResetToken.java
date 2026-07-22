@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -22,8 +23,9 @@ public class PasswordResetToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(nullable = false, updatable = false, columnDefinition = "CHAR(36)")
+    @JdbcTypeCode(SqlTypes.UUID)
+    @Column(columnDefinition = "UUID",
+            updatable = false, nullable = false)
     private UUID id;
 
     @Column(nullable = false, unique = true)
@@ -34,16 +36,12 @@ public class PasswordResetToken {
     @JdbcTypeCode(SqlTypes.CHAR)
     private UserLoginEntity userLogin;
 
-    @Column(name = "expiry_date", nullable = false)
+    @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiryDate;
 
     @Column(name = "created_at")
+    @CreationTimestamp
     private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
 
     public boolean isExpired() {
         return LocalDateTime.now().isAfter(this.expiryDate);

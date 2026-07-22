@@ -8,5 +8,6 @@
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262007_create_user_table_.sql"/>
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_password_reset_table_.sql"/>
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_user_login_token_table.sql"/>
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_user_login_2fa_token_table_.sql"/>
 
 </databaseChangeLog>

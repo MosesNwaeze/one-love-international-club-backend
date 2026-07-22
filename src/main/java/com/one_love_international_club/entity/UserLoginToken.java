@@ -23,13 +23,14 @@ public class UserLoginToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(nullable = false, updatable = false, columnDefinition = "CHAR(36)")
+    @JdbcTypeCode(SqlTypes.UUID)
+    @Column(columnDefinition = "UUID",
+            updatable = false, nullable = false)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    @JdbcTypeCode(SqlTypes.CHAR)
+    @JoinColumn(name = "user_id", nullable = false, columnDefinition = "UUID")
+    @JdbcTypeCode(SqlTypes.UUID)
     private UserLoginEntity userLogin;
 
     @Column(name = "access_key")

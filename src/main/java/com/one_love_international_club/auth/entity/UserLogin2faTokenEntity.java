@@ -21,13 +21,16 @@ import java.util.UUID;
 public class UserLogin2faTokenEntity {
 
     @Id
-    @Column(name = "user_login_id", nullable = false)
-    @JdbcTypeCode(SqlTypes.CHAR)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @JdbcTypeCode(SqlTypes.UUID)
+    @Column(columnDefinition = "UUID",
+            updatable = false, nullable = false)
+    private UUID id;
+
+    @Column(name = "user_id", nullable = false)
     private UUID userLoginId;
 
-    @Id
-    @Column(name = "token", length = 36, nullable = false)
-    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(name = "token", nullable = false)
     private UUID token;
 
     @Data

@@ -17,7 +17,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "user_login_2fa_tokens")
-@IdClass(UserLogin2faTokenEntity.PK.class)
 public class UserLogin2faTokenEntity {
 
     @Id
@@ -33,12 +32,5 @@ public class UserLogin2faTokenEntity {
     @Column(name = "token", nullable = false)
     private UUID token;
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class PK implements Serializable {
-        private UUID userLoginId;
-        private UUID token;
-    }
 }
 

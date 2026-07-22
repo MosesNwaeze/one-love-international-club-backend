@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface UserLogin2faTokenRepository extends JpaRepository<UserLogin2faTokenEntity, UserLogin2faTokenEntity.PK> {
+public interface UserLogin2faTokenRepository extends JpaRepository<UserLogin2faTokenEntity, UUID> {
 
     boolean existsByUserLoginIdAndToken(UUID userLoginId, UUID token);
 

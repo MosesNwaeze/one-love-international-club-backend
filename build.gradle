@@ -86,3 +86,17 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.register('buildDocker', Exec) {
+    dependsOn 'build'
+    group = 'docker'
+    description = 'Build Docker image'
+    commandLine 'docker', 'build', '-t', 'your-app:latest', '.'
+}
+
+tasks.register('runDocker', Exec) {
+    dependsOn 'buildDocker'
+    group = 'docker'
+    description = 'Run Docker container'
+    commandLine 'docker', 'run', '-p', '8080:8080', 'your-app:latest'
+}

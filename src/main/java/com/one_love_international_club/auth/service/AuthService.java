@@ -21,6 +21,7 @@ import com.one_love_international_club.exception.ResourceNotFoundException;
 import com.one_love_international_club.exception.UnauthorizedException;
 import com.one_love_international_club.security.JwtTokenProvider;
 import com.one_love_international_club.security.TokenProps;
+import com.one_love_international_club.util.EmailService;
 import com.one_love_international_club.util.FileService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -50,10 +51,13 @@ public class AuthService {
     private final JwtConfig jwtConfig;
     private final ModelMapper modelMapper;
     private final FileService fileService;
+    private final EmailService emailService;
 
     private static final String INVALID_LOGIN_MESSAGE = "Invalid email or password";
     private static final String TOKEN_TYPE = "Bearer";
     private static final String UPLOAD_PATH = "profile-pics";
+    private static final String REGISTER_NEW_USER = "New User Registration";
+    private static final String NEW_lLOGIN = "New login detected.";
 
     @Transactional
     public Response<UserRegisterDto> register(RegisterRequestDto requestDto) {
@@ -75,6 +79,11 @@ public class AuthService {
 
         UserRegisterDto registerDto = modelMapper.map(save, UserRegisterDto.class);
 
+        emailService.sendEmail(save.getEmail(),
+                REGISTER_NEW_USER,
+                "Your account for One Love International Club, have been created successfully.",
+                null);
+
         return Response.<UserRegisterDto>builder()
                 .status(Status.SUCCESSFUL)
                 .message("User registered successfully!")
@@ -95,6 +104,13 @@ public class AuthService {
         }
 
         TokenDto tokenDto = generateToken(userLoginEntity);
+
+        emailService.sendEmail(
+                loginRequestDto.getEmail(),
+                NEW_lLOGIN,
+                "New Login activity detect. Let us know if you not the one",
+                null
+        );
 
 
         return LoginResponseDto.builder()

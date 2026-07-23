@@ -50,6 +50,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.picocontainer:picocontainer:2.15'
     implementation 'org.postgresql:postgresql:42.7.5'
+    implementation 'com.resend:resend-java:3.1.0'
 
     //Redis Cache Implementation
 //    implementation 'org.springframework.boot:spring-boot-starter-cache'

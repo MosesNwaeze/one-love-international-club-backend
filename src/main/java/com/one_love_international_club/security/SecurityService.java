@@ -1,8 +1,10 @@
 package com.one_love_international_club.security;
 
+import com.one_love_international_club.auth.entity.UserLoginEntity;
 import com.one_love_international_club.auth.repo.UserLoginRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -30,6 +32,12 @@ public class SecurityService {
         return Optional.empty();
     }
 
+    public UserLoginEntity getCurrentUser() {
+        String email = (String) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+
+       return userLoginRepository.findByEmail(email).orElse(null);
+    }
 
 
 }

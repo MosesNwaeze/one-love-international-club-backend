@@ -1,5 +1,6 @@
 package com.one_love_international_club.auth.entity;
 
+import com.one_love_international_club.audit_log.Auditable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserLoginEntity {
+public class UserLoginEntity implements Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

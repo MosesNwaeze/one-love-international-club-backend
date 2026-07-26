@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
-    private final UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<Response<UserDto>> register(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
@@ -61,12 +60,11 @@ public class AuthController {
         return ResponseEntity.ok(Response.success("Token refreshed successfully", loginResponse));
     }
 
-
     @PutMapping("/update-user")
     public ResponseEntity<Response<UserDto>> updateUser(
-            @Valid @RequestBody UserDto userDto
+            @RequestBody UserDto userDto
     ) {
-        Response<UserDto> response = userService.updateUser(userDto);
+        Response<UserDto> response = authService.updateUser(userDto);
         return ResponseEntity
                 .status(StatusCodeResolver.getHttpStatus(response.getCode()))
                 .body(response);

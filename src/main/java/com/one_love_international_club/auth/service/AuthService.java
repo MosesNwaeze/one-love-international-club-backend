@@ -55,7 +55,7 @@ public class AuthService {
 
     private static final String INVALID_LOGIN_MESSAGE = "Invalid email or password";
     private static final String TOKEN_TYPE = "Bearer";
-    private static final String UPLOAD_PATH = "profile-pics";
+    private static final String UPLOAD_PATH = "uploads";
     private static final String REGISTER_NEW_USER = "New User Registration";
     private static final String NEW_lLOGIN = "New login detected.";
 
@@ -75,6 +75,40 @@ public class AuthService {
             userLogin.setProfilePic(fileUrl);
             userLogin.setPicPublicId(publicId);
         }
+
+        if (StringUtils.isNotBlank(requestDto.getRegistrationFeeUrl())) {
+            Map<String, String> uploaded = fileService
+                    .uploadBase64Image(requestDto.getRegistrationFeeUrl(), UPLOAD_PATH);
+
+            String publicId = uploaded.get("publicId");
+            String fileUrl = uploaded.get("fileUrl");
+
+            userLogin.setRegistrationFeeUrl(fileUrl);
+            userLogin.setRegistrationFeePublicId(publicId);
+        }
+
+        if (StringUtils.isNotBlank(requestDto.getRegistrationFormUrl())) {
+            Map<String, String> uploaded = fileService
+                    .uploadBase64Image(requestDto.getRegistrationFormUrl(), UPLOAD_PATH);
+
+            String publicId = uploaded.get("publicId");
+            String fileUrl = uploaded.get("fileUrl");
+
+            userLogin.setRegistrationFormUrl(fileUrl);
+            userLogin.setRegistrationFormPublic(publicId);
+        }
+
+        if (StringUtils.isNotBlank(requestDto.getLetterOfUndertaking())) {
+            Map<String, String> uploaded = fileService
+                    .uploadBase64Image(requestDto.getLetterOfUndertaking(), UPLOAD_PATH);
+
+            String publicId = uploaded.get("publicId");
+            String fileUrl = uploaded.get("fileUrl");
+
+            userLogin.setLetterOfUndertaking(fileUrl);
+            userLogin.setLetterOfUndertakingPublicId(publicId);
+        }
+
         UserEntity save = userRepository.save(userLogin);
 
         UserDto registerDto = modelMapper.map(save, UserDto.class);
@@ -92,6 +126,88 @@ public class AuthService {
                 .data(registerDto)
                 .build();
     }
+
+
+    @Transactional
+    public Response<UserDto> updateUser(UserDto requestDto) {
+        UserEntity userLogin = userRepository
+                .findById(requestDto.getId())
+                .orElseThrow(() -> new ClubException(ErrorCode.ENTITY_NOT_FOUND,
+                        "User with  id " + requestDto.getId() + " not found"));
+
+        modelMapper.map(requestDto, userLogin);
+
+        if (StringUtils.isNotBlank(requestDto.getProfilePic()) &&
+                StringUtils.isNotBlank(requestDto.getPicPublicId())) {
+
+            fileService.deleteFile(requestDto.getPicPublicId());
+
+            Map<String, String> uploaded = fileService
+                    .uploadBase64Image(requestDto.getProfilePic(), UPLOAD_PATH);
+
+            String publicId = uploaded.get("publicId");
+            String fileUrl = uploaded.get("fileUrl");
+
+            userLogin.setProfilePic(fileUrl);
+            userLogin.setPicPublicId(publicId);
+        }
+
+        if (StringUtils.isNotBlank(requestDto.getRegistrationFeeUrl()) &&
+                StringUtils.isNotBlank(requestDto.getRegistrationFeePublicId())) {
+
+            fileService.deleteFile(requestDto.getRegistrationFeePublicId());
+
+            Map<String, String> uploaded = fileService
+                    .uploadBase64Image(requestDto.getRegistrationFeeUrl(), UPLOAD_PATH);
+
+            String publicId = uploaded.get("publicId");
+            String fileUrl = uploaded.get("fileUrl");
+
+            userLogin.setRegistrationFeeUrl(fileUrl);
+            userLogin.setRegistrationFeePublicId(publicId);
+        }
+
+        if (StringUtils.isNotBlank(requestDto.getRegistrationFormUrl()) &&
+                StringUtils.isNotBlank(requestDto.getRegistrationFormPublic())) {
+
+            fileService.deleteFile(requestDto.getRegistrationFormPublic());
+
+            Map<String, String> uploaded = fileService
+                    .uploadBase64Image(requestDto.getRegistrationFormUrl(), UPLOAD_PATH);
+
+            String publicId = uploaded.get("publicId");
+            String fileUrl = uploaded.get("fileUrl");
+
+            userLogin.setRegistrationFormUrl(fileUrl);
+            userLogin.setRegistrationFormPublic(publicId);
+        }
+
+        if (StringUtils.isNotBlank(requestDto.getLetterOfUndertaking()) &&
+                StringUtils.isNotBlank(requestDto.getLetterOfUndertakingPublicId())) {
+
+            fileService.deleteFile(requestDto.getLetterOfUndertakingPublicId());
+
+            Map<String, String> uploaded = fileService
+                    .uploadBase64Image(requestDto.getLetterOfUndertaking(), UPLOAD_PATH);
+
+            String publicId = uploaded.get("publicId");
+            String fileUrl = uploaded.get("fileUrl");
+
+            userLogin.setLetterOfUndertaking(fileUrl);
+            userLogin.setLetterOfUndertakingPublicId(publicId);
+        }
+
+        UserEntity save = userRepository.save(userLogin);
+
+        return Response.<UserDto>builder()
+                .code(HttpStatus.OK.value())
+                .data(modelMapper.map(save, UserDto.class))
+                .message("User updated successfully.")
+                .timestamp(LocalDateTime.now())
+                .status(Status.SUCCESSFUL)
+                .build();
+    }
+
 
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
 

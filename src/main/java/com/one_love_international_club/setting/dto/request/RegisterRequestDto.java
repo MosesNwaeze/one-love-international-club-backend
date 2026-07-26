@@ -4,6 +4,7 @@ import com.one_love_international_club.auth.dto.UserDto;
 import com.one_love_international_club.enums.Gender;
 import com.one_love_international_club.enums.MaritalStatus;
 import com.one_love_international_club.enums.UserType;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -64,12 +65,14 @@ public class RegisterRequestDto {
 
     private UserDto guarantor;
 
-    private BigDecimal registrationFee;
-    
     private String letterOfUndertaking;
 
     private String BankAccountName;
 
     private String BankAccountNumber;
+
+    private String registrationFeeUrl;
+
+    private String registrationFormUrl;
 
 }

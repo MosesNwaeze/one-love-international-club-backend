@@ -14,7 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -41,11 +40,14 @@ public class UserDto extends BaseDto {
     private String picPublicId;
     private Boolean isRootAdmin;
     private UserDto guarantor;
-    private BigDecimal registrationFee;
     private String letterOfUndertaking;
     private String letterOfUndertakingPublicId;
     @JsonIgnore
     private CommitteeDto committee;
     private String BankAccountName;
     private String BankAccountNumber;
+    private String registrationFeeUrl;
+    private String registrationFeePublicId;
+    private String registrationFormUrl;
+    private String registrationFormPublic;
 }

@@ -89,9 +89,6 @@ public class UserEntity extends BaseEntity {
     @JdbcTypeCode(SqlTypes.UUID)
     private UserEntity guarantor;
 
-    @Column(name = "registration_fee", nullable = false)
-    private BigDecimal registrationFee = BigDecimal.ZERO;
-
     @Column(name = "letter_of_undertaking")
     private String letterOfUndertaking;
 
@@ -108,4 +105,17 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "bank_account_number")
     private String BankAccountNumber;
+
+    @Column(name = "registration_fee_url")
+    private String registrationFeeUrl;
+
+    @Column(name = "registration_fee_public_id")
+    private String registrationFeePublicId;
+
+    @Column(name = "registration_form_url")
+    private String registrationFormUrl;
+
+    @Column(name = "registration_form_public_id")
+    private String registrationFormPublic;
+
 }

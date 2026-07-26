@@ -4,34 +4,26 @@
 CREATE TABLE audit_log
 (
     id            UUID PRIMARY KEY      DEFAULT gen_random_uuid(),
-
     user_id       UUID,
-
     username      VARCHAR(255) NOT NULL,
-
     action        VARCHAR(50)  NOT NULL,
-
     entity_type   VARCHAR(100) NOT NULL,
-
     entity_id     UUID,
-
     old_value     JSONB,
-
     new_value     JSONB,
-
     ip_address    VARCHAR(255),
-
     user_agent    TEXT,
-
-    status        VARCHAR(255)  NOT NULL,
-
+    status        VARCHAR(255) NOT NULL,
     error_message JSONB,
-
     operation     VARCHAR(255),
-
     created_by    UUID,
-
     created_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    updated_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+    CONSTRAINT audit_log_user_id_fk FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL
 );
+
+CREATE INDEX audit_log_user_id_index ON audit_log (user_id);
+CREATE INDEX audit_log_entity_type_index ON audit_log (entity_type);
+CREATE INDEX audit_log_entity_id_index ON audit_log (entity_id);
+CREATE INDEX audit_ip_address_id_index ON audit_log (ip_address);

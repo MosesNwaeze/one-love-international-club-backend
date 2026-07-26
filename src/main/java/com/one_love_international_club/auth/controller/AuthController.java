@@ -1,12 +1,13 @@
 package com.one_love_international_club.auth.controller;
 
-import com.one_love_international_club.auth.dto.UserRegisterDto;
+import com.one_love_international_club.auth.dto.UserDto;
 import com.one_love_international_club.auth.service.AuthService;
-import com.one_love_international_club.dto.Response;
-import com.one_love_international_club.dto.request.LoginRequestDto;
-import com.one_love_international_club.dto.request.PasswordResetRequestDto;
-import com.one_love_international_club.dto.request.RegisterRequestDto;
-import com.one_love_international_club.dto.response.LoginResponseDto;
+import com.one_love_international_club.auth.service.UserService;
+import com.one_love_international_club.setting.dto.Response;
+import com.one_love_international_club.setting.dto.request.LoginRequestDto;
+import com.one_love_international_club.setting.dto.request.PasswordResetRequestDto;
+import com.one_love_international_club.setting.dto.request.RegisterRequestDto;
+import com.one_love_international_club.setting.dto.response.LoginResponseDto;
 import com.one_love_international_club.util.Constants;
 import com.one_love_international_club.util.StatusCodeResolver;
 import jakarta.validation.Valid;
@@ -20,10 +21,11 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<Response<UserRegisterDto>> register(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
-        Response<UserRegisterDto> response = authService.register(registerRequestDto);
+    public ResponseEntity<Response<UserDto>> register(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
+        Response<UserDto> response = authService.register(registerRequestDto);
         return ResponseEntity
                 .status(StatusCodeResolver.getHttpStatus(response.getCode()))
                 .body(response);
@@ -57,5 +59,16 @@ public class AuthController {
     public ResponseEntity<Response<LoginResponseDto>> refreshToken(@RequestParam String refreshToken) {
         LoginResponseDto loginResponse = authService.refreshToken(refreshToken);
         return ResponseEntity.ok(Response.success("Token refreshed successfully", loginResponse));
+    }
+
+
+    @PutMapping("/update-user")
+    public ResponseEntity<Response<UserDto>> updateUser(
+            @Valid @RequestBody UserDto userDto
+    ) {
+        Response<UserDto> response = userService.updateUser(userDto);
+        return ResponseEntity
+                .status(StatusCodeResolver.getHttpStatus(response.getCode()))
+                .body(response);
     }
 }

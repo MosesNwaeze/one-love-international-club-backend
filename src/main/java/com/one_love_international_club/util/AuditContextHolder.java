@@ -1,6 +1,6 @@
 package com.one_love_international_club.util;
 
-import com.one_love_international_club.auth.entity.UserLoginEntity;
+import com.one_love_international_club.auth.entity.UserEntity;
 
 import java.util.*;
 
@@ -9,17 +9,17 @@ public class AuditContextHolder {
     private static final ThreadLocal<Map<String, Object>> CONTEXT =
             ThreadLocal.withInitial(HashMap::new);
 
-    private static final ThreadLocal<UserLoginEntity> CURRENT_USER = new ThreadLocal<>();
+    private static final ThreadLocal<UserEntity> CURRENT_USER = new ThreadLocal<>();
 
     private static final ThreadLocal<String> IP_ADDRESS = new ThreadLocal<>();
 
     private static final ThreadLocal<String> REQUEST_ID = new ThreadLocal<>();
 
-    public static void setCurrentUser(UserLoginEntity user) {
+    public static void setCurrentUser(UserEntity user) {
         CURRENT_USER.set(user);
     }
 
-    public static UserLoginEntity getCurrentUser() {
+    public static UserEntity getCurrentUser() {
         return CURRENT_USER.get();
     }
 

@@ -9,7 +9,8 @@ CREATE TABLE user_login_tokens
     refresh_key VARCHAR(255),
     token_type  VARCHAR(255),
     scope       VARCHAR(255),
-    created_at  TIMESTAMP NOT NULL,
+    created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     expires_at  TIMESTAMP NOT NULL,
     CONSTRAINT fk_user_login_tokens_user_login
         FOREIGN KEY (user_id)

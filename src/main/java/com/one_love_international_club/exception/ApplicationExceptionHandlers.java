@@ -1,7 +1,7 @@
 package com.one_love_international_club.exception;
 
-import com.one_love_international_club.dto.Response;
-import com.one_love_international_club.dto.Status;
+import com.one_love_international_club.setting.dto.Response;
+import com.one_love_international_club.setting.dto.Status;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

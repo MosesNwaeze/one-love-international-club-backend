@@ -1,14 +1,12 @@
 package com.one_love_international_club.auth.entity;
 
+import com.one_love_international_club.setting.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 @Builder
@@ -17,17 +15,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "user_login_2fa_tokens")
-public class UserLogin2faTokenEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @JdbcTypeCode(SqlTypes.UUID)
-    @Column(columnDefinition = "UUID",
-            updatable = false, nullable = false)
-    private UUID id;
+public class UserLogin2faTokenEntity extends BaseEntity {
 
     @Column(name = "user_id", nullable = false)
-    private UUID userLoginId;
+    private UUID userId;
 
     @Column(name = "token", nullable = false)
     private UUID token;

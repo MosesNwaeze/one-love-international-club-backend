@@ -1,9 +1,8 @@
 package com.one_love_international_club.security.filter;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.one_love_international_club.auth.dto.UserRegisterDto;
-import com.one_love_international_club.auth.entity.UserLoginEntity;
-import com.one_love_international_club.auth.repo.UserLoginRepository;
+import com.one_love_international_club.auth.entity.UserEntity;
+import com.one_love_international_club.auth.repo.UserRepository;
 import com.one_love_international_club.exception.ClubException;
 import com.one_love_international_club.exception.ErrorCode;
 import com.one_love_international_club.security.JwtTokenProvider;
@@ -20,7 +19,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -36,7 +34,7 @@ import java.util.List;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final UserLoginRepository userLoginRepository;
+    private final UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -51,16 +49,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 TokenProps tokenDetails = jwtTokenProvider.toTokenProps(decodedJWT);
 
-                UserLoginEntity user = getUser(tokenDetails.username());
+                UserEntity user = getUser(tokenDetails.username());
 
-                UserDetails userDetails = new User(
-                        tokenDetails.username(),
-                        user.getPassword(),
-                        List.of(new SimpleGrantedAuthority("ROLE_".concat(user.getUserType().name())))
-                );
-
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, tokenDetails, userDetails.getAuthorities());
+                UsernamePasswordAuthenticationToken authenticationToken = getAuthenticationToken(user, tokenDetails);
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -75,6 +66,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    private static UsernamePasswordAuthenticationToken getAuthenticationToken(UserEntity user, TokenProps tokenDetails) {
+        SimpleGrantedAuthority role = new SimpleGrantedAuthority("ROLE_" + user.getRole().getName());
+        SimpleGrantedAuthority organ = new SimpleGrantedAuthority("ROLE_" + user.getRole().getClubOrgan().getName());
+
+        UserDetails userDetails = new User(
+                tokenDetails.username(),
+                user.getPassword(),
+                List.of(role, organ)
+        );
+
+        return new UsernamePasswordAuthenticationToken(
+                userDetails, tokenDetails, userDetails.getAuthorities());
+    }
+
     private String getJwtFromRequest(HttpServletRequest request) {
 
         String bearerToken = request.getHeader("Authorization");
@@ -84,8 +89,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return null;
     }
 
-    private UserLoginEntity getUser(String email) {
-        return userLoginRepository
+    private UserEntity getUser(String email) {
+        return userRepository
                 .findByEmail(email)
                 .orElseThrow(() -> new ClubException(ErrorCode.ENTITY_NOT_FOUND, "User with email: " + email + " not found"));
     }

@@ -1,20 +1,20 @@
 package com.one_love_international_club.auth.service;
 
 import com.one_love_international_club.auth.dto.TokenDto;
-import com.one_love_international_club.auth.dto.UserRegisterDto;
-import com.one_love_international_club.auth.entity.UserLoginEntity;
+import com.one_love_international_club.auth.dto.UserDto;
+import com.one_love_international_club.auth.entity.UserEntity;
 import com.one_love_international_club.auth.repo.PasswordResetTokenRepository;
-import com.one_love_international_club.auth.repo.UserLoginRepository;
+import com.one_love_international_club.auth.repo.UserRepository;
 import com.one_love_international_club.auth.repo.UserLoginTokenRepository;
 import com.one_love_international_club.config.JwtConfig;
-import com.one_love_international_club.dto.Response;
-import com.one_love_international_club.dto.Status;
-import com.one_love_international_club.dto.request.LoginRequestDto;
-import com.one_love_international_club.dto.request.PasswordResetRequestDto;
-import com.one_love_international_club.dto.request.RegisterRequestDto;
-import com.one_love_international_club.dto.response.LoginResponseDto;
-import com.one_love_international_club.entity.PasswordResetToken;
-import com.one_love_international_club.entity.UserLoginToken;
+import com.one_love_international_club.setting.dto.Response;
+import com.one_love_international_club.setting.dto.Status;
+import com.one_love_international_club.setting.dto.request.LoginRequestDto;
+import com.one_love_international_club.setting.dto.request.PasswordResetRequestDto;
+import com.one_love_international_club.setting.dto.request.RegisterRequestDto;
+import com.one_love_international_club.setting.dto.response.LoginResponseDto;
+import com.one_love_international_club.setting.entity.PasswordResetToken;
+import com.one_love_international_club.setting.entity.UserLoginToken;
 import com.one_love_international_club.exception.ClubException;
 import com.one_love_international_club.exception.ErrorCode;
 import com.one_love_international_club.exception.ResourceNotFoundException;
@@ -44,7 +44,7 @@ import java.util.UUID;
 public class AuthService {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final UserLoginRepository userLoginRepository;
+    private final UserRepository userRepository;
     private final UserLoginTokenRepository userLoginTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
@@ -60,10 +60,10 @@ public class AuthService {
     private static final String NEW_lLOGIN = "New login detected.";
 
     @Transactional
-    public Response<UserRegisterDto> register(RegisterRequestDto requestDto) {
+    public Response<UserDto> register(RegisterRequestDto requestDto) {
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
-        UserLoginEntity userLogin = modelMapper
-                .map(requestDto, UserLoginEntity.class);
+        UserEntity userLogin = modelMapper
+                .map(requestDto, UserEntity.class);
 
         if (StringUtils.isNotBlank(requestDto.getProfilePic())) {
             Map<String, String> uploaded = fileService
@@ -75,16 +75,16 @@ public class AuthService {
             userLogin.setProfilePic(fileUrl);
             userLogin.setPicPublicId(publicId);
         }
-        UserLoginEntity save = userLoginRepository.save(userLogin);
+        UserEntity save = userRepository.save(userLogin);
 
-        UserRegisterDto registerDto = modelMapper.map(save, UserRegisterDto.class);
+        UserDto registerDto = modelMapper.map(save, UserDto.class);
 
         emailService.sendEmail(save.getEmail(),
                 REGISTER_NEW_USER,
                 "Your account for One Love International Club, have been created successfully.",
                 null);
 
-        return Response.<UserRegisterDto>builder()
+        return Response.<UserDto>builder()
                 .status(Status.SUCCESSFUL)
                 .message("User registered successfully!")
                 .code(HttpStatus.OK.value())
@@ -95,15 +95,15 @@ public class AuthService {
 
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
 
-        UserLoginEntity userLoginEntity = userLoginRepository.findByEmail(loginRequestDto.getEmail())
+        UserEntity userEntity = userRepository.findByEmail(loginRequestDto.getEmail())
                 .orElseThrow(() -> new ClubException(
                         ErrorCode.NOT_AUTHENTICATED, INVALID_LOGIN_MESSAGE));
 
-        if (!passwordEncoder.matches(loginRequestDto.getPassword(), userLoginEntity.getPassword())) {
+        if (!passwordEncoder.matches(loginRequestDto.getPassword(), userEntity.getPassword())) {
             throw new ClubException(ErrorCode.NOT_AUTHENTICATED, INVALID_LOGIN_MESSAGE);
         }
 
-        TokenDto tokenDto = generateToken(userLoginEntity);
+        TokenDto tokenDto = generateToken(userEntity);
 
         emailService.sendEmail(
                 loginRequestDto.getEmail(),
@@ -122,18 +122,18 @@ public class AuthService {
 
     }
 
-    private TokenDto generateToken(UserLoginEntity userLoginEntity) {
+    private TokenDto generateToken(UserEntity userEntity) {
 
         TokenProps tokenProps = TokenProps.builder()
-                .id(userLoginEntity.getId())
-                .username(userLoginEntity.getEmail())
+                .id(userEntity.getId())
+                .username(userEntity.getEmail())
                 .build();
 
         String accessToken = jwtTokenProvider.generateAccessToken(tokenProps);
         String refreshToken = jwtTokenProvider.generateRefreshToken(tokenProps);
 
         UserLoginToken token = UserLoginToken.builder()
-                .userLogin(userLoginEntity)
+                .userLogin(userEntity)
                 .accessKey(accessToken)
                 .refreshKey(refreshToken)
                 .tokenType(TOKEN_TYPE)
@@ -155,11 +155,11 @@ public class AuthService {
     public void forgotPassword(String email) {
 
         try {
-            UserLoginEntity userLoginEntity = userLoginRepository.findByEmail(email)
+            UserEntity userEntity = userRepository.findByEmail(email)
                     .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
 
             // Remove any existing reset tokens
-            passwordResetTokenRepository.findByUserLogin(userLoginEntity)
+            passwordResetTokenRepository.findByUserLogin(userEntity)
                     .ifPresent(passwordResetTokenRepository::delete);
 
             // Generate reset token
@@ -169,7 +169,7 @@ public class AuthService {
             // Save the token to the database
             PasswordResetToken passwordResetToken = PasswordResetToken.builder()
                     .token(resetToken)
-                    .userLogin(userLoginEntity)
+                    .userLogin(userEntity)
                     .expiryDate(expiryDate)
                     .build();
 
@@ -194,7 +194,7 @@ public class AuthService {
                             passwordResetRequestDto.getToken())
                     .orElseThrow(() -> new UnauthorizedException("Invalid reset token"));
 
-            UserLoginEntity userLoginEntity = passwordResetToken.getUserLogin();
+            UserEntity userEntity = passwordResetToken.getUserLogin();
 
             // Check if token is expired
             if (passwordResetToken.isExpired()) {
@@ -203,19 +203,19 @@ public class AuthService {
             }
 
             // Verify the user email matches the token's user
-            if (!userLoginEntity.getEmail().equals(passwordResetRequestDto.getEmail())) {
+            if (!userEntity.getEmail().equals(passwordResetRequestDto.getEmail())) {
                 throw new UnauthorizedException("Email does not match token");
             }
 
             // Update password
-            userLoginEntity.setPassword(passwordEncoder.encode(passwordResetRequestDto.getNewPassword()));
-            userLoginRepository.save(userLoginEntity);
+            userEntity.setPassword(passwordEncoder.encode(passwordResetRequestDto.getNewPassword()));
+            userRepository.save(userEntity);
 
             // Delete the used token
             passwordResetTokenRepository.delete(passwordResetToken);
 
             // Invalidate all existing tokens for security
-            userLoginTokenRepository.deleteAllByUserLogin(userLoginEntity);
+            userLoginTokenRepository.deleteAllByUserLogin(userEntity);
 
 
         } catch (UnauthorizedException e) {
@@ -234,7 +234,7 @@ public class AuthService {
             UserLoginToken token = userLoginTokenRepository.findByRefreshKey(refreshToken)
                     .orElseThrow(() -> new UnauthorizedException("Invalid refresh token"));
 
-            UserLoginEntity userLoginEntity = token.getUserLogin();
+            UserEntity userEntity = token.getUserLogin();
 
             // Delete the token
             userLoginTokenRepository.delete(token);
@@ -257,7 +257,7 @@ public class AuthService {
             UserLoginToken token = userLoginTokenRepository.findByRefreshKey(refreshToken)
                     .orElseThrow(() -> new UnauthorizedException("Invalid refresh token"));
 
-            UserLoginEntity userLoginEntity = token.getUserLogin();
+            UserEntity userEntity = token.getUserLogin();
 
             // Check if token is expired
             if (token.getExpiresAt().isBefore(LocalDateTime.now())) {
@@ -266,14 +266,14 @@ public class AuthService {
                 throw new UnauthorizedException("Refresh token expired");
             }
 
-            if (!userLoginEntity.getStatus().equals(Status.ACTIVE)) {
+            if (!userEntity.getStatus().equals(Status.ACTIVE)) {
                 userLoginTokenRepository.delete(token);
                 throw new UnauthorizedException("User account is inactive");
             }
 
             TokenProps tokenProps = TokenProps.builder()
-                    .id(userLoginEntity.getId())
-                    .username(userLoginEntity.getEmail())
+                    .id(userEntity.getId())
+                    .username(userEntity.getEmail())
                     .build();
 
             String newAccessToken = jwtTokenProvider.generateAccessToken(tokenProps);

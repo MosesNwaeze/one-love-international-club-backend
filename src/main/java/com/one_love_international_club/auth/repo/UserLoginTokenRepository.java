@@ -1,7 +1,7 @@
 package com.one_love_international_club.auth.repo;
 
-import com.one_love_international_club.auth.entity.UserLoginEntity;
-import com.one_love_international_club.entity.UserLoginToken;
+import com.one_love_international_club.auth.entity.UserEntity;
+import com.one_love_international_club.setting.entity.UserLoginToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,9 +17,9 @@ public interface UserLoginTokenRepository extends JpaRepository<UserLoginToken, 
 
     Optional<UserLoginToken> findByRefreshKey(String refreshKey);
 
-    List<UserLoginToken> findAllByUserLoginAndExpiresAtAfter(UserLoginEntity userLoginEntity, LocalDateTime now);
+    List<UserLoginToken> findAllByUserLoginAndExpiresAtAfter(UserEntity userEntity, LocalDateTime now);
 
-    void deleteAllByUserLogin(UserLoginEntity userLoginEntity);
+    void deleteAllByUserLogin(UserEntity userEntity);
 
     void deleteAllByExpiresAtBefore(LocalDateTime now);
 }

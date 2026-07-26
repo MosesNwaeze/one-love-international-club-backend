@@ -1,7 +1,7 @@
 package com.one_love_international_club.security;
 
-import com.one_love_international_club.auth.entity.UserLoginEntity;
-import com.one_love_international_club.auth.repo.UserLoginRepository;
+import com.one_love_international_club.auth.entity.UserEntity;
+import com.one_love_international_club.auth.repo.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +20,7 @@ public class SecurityService {
 
     private final HttpServletRequest request;
     private final JwtTokenProvider tokenProvider;
-    private final UserLoginRepository userLoginRepository;
+    private final UserRepository userRepository;
 
     public Optional<TokenProps> getTokenProps() {
 
@@ -32,11 +32,11 @@ public class SecurityService {
         return Optional.empty();
     }
 
-    public UserLoginEntity getCurrentUser() {
+    public UserEntity getCurrentUser() {
         String email = (String) SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal();
 
-       return userLoginRepository.findByEmail(email).orElse(null);
+       return userRepository.findByEmail(email).orElse(null);
     }
 
 

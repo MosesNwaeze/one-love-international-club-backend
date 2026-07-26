@@ -1,6 +1,6 @@
 package com.one_love_international_club.util;
 
-import com.one_love_international_club.auth.entity.UserLoginEntity;
+import com.one_love_international_club.auth.entity.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +11,7 @@ import java.util.Map;
 @Getter
 public class AuditContext {
     // Getters and Setters
-    private UserLoginEntity user;
+    private UserEntity user;
     private String ipAddress;
     private String requestId;
     private String userAgent;

@@ -1,7 +1,7 @@
 package com.one_love_international_club.security;
 
-import com.one_love_international_club.auth.entity.UserLoginEntity;
-import com.one_love_international_club.auth.repo.UserLoginRepository;
+import com.one_love_international_club.auth.entity.UserEntity;
+import com.one_love_international_club.auth.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -17,17 +17,17 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserLoginRepository userLoginRepository;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserLoginEntity userLoginEntity = userLoginRepository.findByEmail(email)
+        UserEntity userEntity = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
         return new User(
-                userLoginEntity.getEmail(),
-                userLoginEntity.getPassword(),
+                userEntity.getEmail(),
+                userEntity.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
         );
     }

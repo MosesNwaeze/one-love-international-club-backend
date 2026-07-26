@@ -52,7 +52,7 @@ public class AuditLogService {
         auditLogEntity.setNewValue(auditLog.getUsername());
     }
 
-    private String objectToJson(Object obj) {
+    public String objectToJson(Object obj) {
         try {
             return objectMapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {

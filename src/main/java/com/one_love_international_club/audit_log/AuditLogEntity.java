@@ -13,7 +13,6 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "audit_log")
-@EntityListeners(AuditLogListener.class)
 @Data
 public class AuditLogEntity implements Auditable {
 

@@ -5,10 +5,22 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_objectives_table.sql"/>
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262007_create_app_table.sql"/>
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_committee_table.sql"/>
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262507_create_club_organ_table_.sql"/>
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_role_table_.sql"/>
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262007_create_user_table_.sql"/>
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_password_reset_table_.sql"/>
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_user_login_token_table.sql"/>
-    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_user_login_2fa_token_table_.sql"/>
+    <include author="moses.nwaeze"
+             file="classpath:db/changelog/changes/20262207_create_user_login_2fa_token_table_.sql"/>
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262307_create_audit_log_table.sql"/>
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_benefit_table.sql"/>
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_resignation_table.sql"/>
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_bank_table.sql"/>
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_signatory_table.sql"/>
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_expenses_table.sql"/>
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_income_table.sql"/>
 
 </databaseChangeLog>

@@ -17,7 +17,7 @@ public class Role extends BaseEntity {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "club_organ_id", nullable = false, columnDefinition = "UUID")
     @JdbcTypeCode(SqlTypes.UUID)
     private ClubOrganEntity clubOrgan;

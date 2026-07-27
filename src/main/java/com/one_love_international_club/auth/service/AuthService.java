@@ -34,8 +34,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -113,10 +115,10 @@ public class AuthService {
 
         UserDto registerDto = modelMapper.map(save, UserDto.class);
 
-        emailService.sendEmail(save.getEmail(),
-                REGISTER_NEW_USER,
-                "Your account for One Love International Club, have been created successfully.",
-                null);
+        emailService
+                .sendEmail(save.getEmail(),
+                        REGISTER_NEW_USER,
+                        "Your account for One Love International Club, have been created successfully.");
 
         return Response.<UserDto>builder()
                 .status(Status.SUCCESSFUL)
@@ -224,10 +226,8 @@ public class AuthService {
         emailService.sendEmail(
                 loginRequestDto.getEmail(),
                 NEW_lLOGIN,
-                "New Login activity detect. Let us know if you not the one",
-                null
+                "New Login activity detect. Let us know if you not the one"
         );
-
 
         return LoginResponseDto.builder()
                 .accessToken(tokenDto.getAccessToken())
@@ -240,9 +240,13 @@ public class AuthService {
 
     private TokenDto generateToken(UserEntity userEntity) {
 
+        String role = userEntity.getRole().getName().toUpperCase();
+        String clubOrgan = userEntity.getRole().getClubOrgan().getName().toUpperCase();
+
         TokenProps tokenProps = TokenProps.builder()
                 .id(userEntity.getId())
                 .username(userEntity.getEmail())
+                .roles(List.of(role, clubOrgan))
                 .build();
 
         String accessToken = jwtTokenProvider.generateAccessToken(tokenProps);
@@ -387,9 +391,13 @@ public class AuthService {
                 throw new UnauthorizedException("User account is inactive");
             }
 
+            String role = userEntity.getRole().getName().toUpperCase();
+            String clubOrgan = userEntity.getRole().getClubOrgan().getName().toUpperCase();
+
             TokenProps tokenProps = TokenProps.builder()
                     .id(userEntity.getId())
                     .username(userEntity.getEmail())
+                    .roles(List.of(role, clubOrgan))
                     .build();
 
             String newAccessToken = jwtTokenProvider.generateAccessToken(tokenProps);

@@ -33,7 +33,20 @@ public class EmailService {
     private final TemplateEngine templateEngine;
 
     @Async
-    public CompletableFuture<Response<Map<String, Object>>> sendEmail(String to, String subject, String body, Attachment attachment) {
+    public void sendEmail(String to, String subject, String body) {
+        CreateEmailOptions params = CreateEmailOptions.builder()
+                .from(from)
+                .to(to)
+                .subject(subject)
+                .html(body)
+                .build();
+
+        send(params);
+
+    }
+
+    @Async
+    public void sendEmailWithAttachment(String to, String subject, String body, Attachment attachment){
         CreateEmailOptions params = CreateEmailOptions.builder()
                 .from(from)
                 .to(to)
@@ -42,12 +55,12 @@ public class EmailService {
                 .addAttachment(attachment)
                 .build();
 
-        return sendEmail(params).toCompletableFuture();
+        send(params);
 
     }
 
     @Async
-    public CompletableFuture<Response<Map<String, Object>>> sendEmailWithTemplate(String templatePath, Map<String, Object> templateModel) {
+    public void sendEmailWithTemplate(String templatePath, Map<String, Object> templateModel) {
 
         Context context = new Context();
         context.setVariables(templateModel);
@@ -61,35 +74,20 @@ public class EmailService {
                 .html(process)
                 .addAttachment((Attachment) templateModel.get("attachment"))
                 .build();
-        return sendEmail(params).toCompletableFuture();
+        send(params);
     }
 
 
-    private CompletionStage<Response<Map<String, Object>>> sendEmail(CreateEmailOptions options) {
+    private void send(CreateEmailOptions options) {
         try {
 
             CreateEmailResponse response = resend.emails().send(options);
 
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", response);
-
             log.info("Email send successfully, {}", response);
 
-            return CompletableFuture.completedFuture(Response.<Map<String, Object>>builder()
-                    .code(HttpStatus.OK.value())
-                    .timestamp(LocalDateTime.now())
-                    .status(Status.SUCCESSFUL)
-                    .message("Email send successfully")
-                    .data(map)
-                    .build());
 
         } catch (Exception e) {
             log.error("Error sending email, {}", e.getMessage(), e);
-            return CompletableFuture.completedFuture(Response.<Map<String, Object>>builder()
-                    .message(e.getMessage())
-                    .status(Status.ERROR)
-                    .timestamp(LocalDateTime.now())
-                    .build());
         }
     }
 

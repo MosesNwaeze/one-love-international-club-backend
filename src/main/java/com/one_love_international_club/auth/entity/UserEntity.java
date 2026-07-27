@@ -13,7 +13,6 @@ import com.one_love_international_club.enums.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -33,7 +32,7 @@ public class UserEntity extends BaseEntity {
     @Column(name = "other_name")
     private String otherName;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", nullable = false, columnDefinition = "UUID")
     @JdbcTypeCode(SqlTypes.UUID)
     private Role role;
@@ -101,10 +100,10 @@ public class UserEntity extends BaseEntity {
     private CommitteeEntity committee;
 
     @Column(name = "bank_account_name")
-    private String BankAccountName;
+    private String bankAccountName;
 
     @Column(name = "bank_account_number")
-    private String BankAccountNumber;
+    private String bankAccountNumber;
 
     @Column(name = "registration_fee_url")
     private String registrationFeeUrl;

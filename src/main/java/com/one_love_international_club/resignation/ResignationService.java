@@ -96,7 +96,7 @@ public class ResignationService {
         String body = "Your request to resign from ONE LOVE INTERNATIONAL NOBLE CLUB has been approve with status:" +
                 saved.getResignationStatus().name();
 
-        emailService.sendEmail(user.getEmail(), "Resignation approval", body, null);
+        emailService.sendEmail(user.getEmail(), "Resignation approval", body);
 
         return Response.<ResignationDto>builder()
                 .timestamp(LocalDateTime.now())

@@ -7,12 +7,14 @@ import com.one_love_international_club.exception.ClubException;
 import com.one_love_international_club.exception.ErrorCode;
 import com.one_love_international_club.security.JwtTokenProvider;
 import com.one_love_international_club.security.TokenProps;
+import com.one_love_international_club.setting.entity.Role;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -67,8 +69,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private static UsernamePasswordAuthenticationToken getAuthenticationToken(UserEntity user, TokenProps tokenDetails) {
-        SimpleGrantedAuthority role = new SimpleGrantedAuthority("ROLE_" + user.getRole().getName());
-        SimpleGrantedAuthority organ = new SimpleGrantedAuthority("ROLE_" + user.getRole().getClubOrgan().getName());
+        SimpleGrantedAuthority role = new SimpleGrantedAuthority("ROLE_" +
+                user.getRole().getName().toUpperCase());
+        SimpleGrantedAuthority organ = new SimpleGrantedAuthority("ROLE_" +
+                user.getRole().getClubOrgan().getName().toUpperCase());
 
         UserDetails userDetails = new User(
                 tokenDetails.username(),

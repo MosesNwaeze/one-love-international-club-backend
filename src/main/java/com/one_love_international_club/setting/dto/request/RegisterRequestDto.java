@@ -4,6 +4,7 @@ import com.one_love_international_club.auth.dto.UserDto;
 import com.one_love_international_club.enums.Gender;
 import com.one_love_international_club.enums.MaritalStatus;
 import com.one_love_international_club.enums.UserType;
+import com.one_love_international_club.setting.dto.RoleDto;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,8 +29,8 @@ public class RegisterRequestDto {
 
     private String otherName;
 
-    @NotNull(message = "User type is required.")
-    private UserType userType;
+    @NotNull(message = "User role is required.")
+    private RoleDto role;
 
     private String title;
 
@@ -67,9 +68,9 @@ public class RegisterRequestDto {
 
     private String letterOfUndertaking;
 
-    private String BankAccountName;
+    private String bankAccountName;
 
-    private String BankAccountNumber;
+    private String bankAccountNumber;
 
     private String registrationFeeUrl;
 

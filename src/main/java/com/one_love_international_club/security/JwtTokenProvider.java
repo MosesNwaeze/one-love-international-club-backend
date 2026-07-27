@@ -49,6 +49,7 @@ public class JwtTokenProvider {
                 .withClaim(TokenClaim.USERLOGIN_ID.name().toLowerCase(), tokenProps.id().toString())
                 .withClaim(TokenClaim.USERNAME.name().toLowerCase(), tokenProps.username())
                 .withClaim(TokenClaim.TOKEN_TYPE.name().toLowerCase(), tokenType.toString())
+                .withClaim(TokenClaim.ROLE.name(), tokenProps.roles().toString())
                 .withSubject(tokenProps.id().toString())
                 .withAudience(ISSUER)
                 .withExpiresAt(expiresAt)

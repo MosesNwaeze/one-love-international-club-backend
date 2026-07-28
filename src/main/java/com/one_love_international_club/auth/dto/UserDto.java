@@ -1,5 +1,6 @@
 package com.one_love_international_club.auth.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.one_love_international_club.committee.CommitteeDto;
 import com.one_love_international_club.enums.Gender;
 import com.one_love_international_club.enums.MaritalStatus;
@@ -21,6 +22,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto extends BaseDto {
     private String firstName;
     private String lastName;

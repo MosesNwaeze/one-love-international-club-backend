@@ -5,16 +5,14 @@ import com.one_love_international_club.setting.dto.Status;
 import com.one_love_international_club.setting.entity.BaseEntity;
 import com.one_love_international_club.setting.entity.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import com.one_love_international_club.enums.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "users")
 @Data

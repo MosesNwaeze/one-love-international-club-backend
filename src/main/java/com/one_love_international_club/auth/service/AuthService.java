@@ -61,11 +61,18 @@ public class AuthService {
     private static final String REGISTER_NEW_USER = "New User Registration";
     private static final String NEW_lLOGIN = "New login detected.";
 
+    private static final Long MAX_MEMBER_SIZE = 100L;
+
     @Transactional
     public Response<UserDto> register(RegisterRequestDto requestDto) {
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         UserEntity userLogin = modelMapper
                 .map(requestDto, UserEntity.class);
+        Long totalMembers = userRepository.totalMembers();
+
+        if (totalMembers > MAX_MEMBER_SIZE) {
+            throw new ClubException(ErrorCode.VALIDATION_ERROR, "The allowed member size has been exceeded.");
+        }
 
         if (StringUtils.isNotBlank(requestDto.getProfilePic())) {
             Map<String, String> uploaded = fileService
@@ -111,7 +118,7 @@ public class AuthService {
             userLogin.setLetterOfUndertakingPublicId(publicId);
         }
 
-        UserEntity save = userRepository.save(userLogin);
+        UserEntity save = userRepository.saveAndFlush(userLogin);
 
         UserDto registerDto = modelMapper.map(save, UserDto.class);
 

@@ -9,6 +9,11 @@ import com.one_love_international_club.security.SecurityService;
 import com.one_love_international_club.security.TwoFactorAuthService;
 import com.one_love_international_club.setting.dto.Response;
 import com.one_love_international_club.setting.dto.Status;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -26,9 +31,24 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    @PersistenceContext
+    private final EntityManager entityManager;
 
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
+
+
+    public void performQuery(){
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<UserEntity> query = builder.createQuery(UserEntity.class);
+
+        Root<UserEntity> user = query.from(UserEntity.class);
+
+
+
+        CriteriaQuery<UserEntity> select = query.select(user);
+    }
 
 
 }

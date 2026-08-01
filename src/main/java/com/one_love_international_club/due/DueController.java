@@ -16,11 +16,11 @@ import java.util.UUID;
 @RequestMapping("/v1/dues")
 @Tag(name = "Due Controller", description = "Controller class for all dues related endpoints.")
 @RequiredArgsConstructor
-@PreAuthorize("hasAnyRole('Financial Secretary', 'Treasurer')")
 public class DueController {
     private final DueService dueService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('Financial Secretary', 'Treasurer')")
     public ResponseEntity<Response<DueDto>> createDue(
             @Valid @RequestBody DueDto dueDto
     ) {
@@ -31,6 +31,7 @@ public class DueController {
     }
 
     @PatchMapping
+    @PreAuthorize("hasAnyRole('Financial Secretary', 'Treasurer')")
     public ResponseEntity<Response<DueDto>> updateDue(
             @RequestBody DueDto dueDto
     ) {
@@ -59,6 +60,7 @@ public class DueController {
     }
 
     @DeleteMapping("/{dueId}")
+    @PreAuthorize("hasAnyRole('Financial Secretary', 'Treasurer')")
     public ResponseEntity<Response<Void>> deleteDue(
             @PathVariable("dueId") UUID bankId
     ) {

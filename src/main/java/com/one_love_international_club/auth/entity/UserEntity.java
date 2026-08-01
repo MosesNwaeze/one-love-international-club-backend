@@ -3,7 +3,7 @@ package com.one_love_international_club.auth.entity;
 import com.one_love_international_club.committee.CommitteeEntity;
 import com.one_love_international_club.setting.dto.Status;
 import com.one_love_international_club.setting.entity.BaseEntity;
-import com.one_love_international_club.setting.entity.Role;
+import com.one_love_international_club.setting.entity.RoleEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import com.one_love_international_club.enums.*;
@@ -33,7 +33,7 @@ public class UserEntity extends BaseEntity {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", nullable = false, columnDefinition = "UUID")
     @JdbcTypeCode(SqlTypes.UUID)
-    private Role role;
+    private RoleEntity roleEntity;
 
     @Column(name = "title")
     @Enumerated(EnumType.STRING)
@@ -114,5 +114,12 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "registration_form_public_id")
     private String registrationFormPublic;
+
+    @Column(name = "approval_comment")
+    private String approvalComment;
+
+    @Column(name = "approval_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ApprovalStatus approvalStatus = ApprovalStatus.PENDING;
 
 }

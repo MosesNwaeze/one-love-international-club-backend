@@ -38,17 +38,4 @@ public class UserService {
     private final UserRepository userRepository;
 
 
-    public void performQuery(){
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-
-        CriteriaQuery<UserEntity> query = builder.createQuery(UserEntity.class);
-
-        Root<UserEntity> user = query.from(UserEntity.class);
-
-
-
-        CriteriaQuery<UserEntity> select = query.select(user);
-    }
-
-
 }

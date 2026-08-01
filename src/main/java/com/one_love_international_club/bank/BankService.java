@@ -34,7 +34,7 @@ public class BankService {
     @Transactional
     public Response<BankDto> createBank(BankDto bankDto) {
         UserEntity currentUser = securityService.getCurrentUser();
-        ClubOrganEntity clubOrgan = currentUser.getRole().getClubOrgan();
+        ClubOrganEntity clubOrgan = currentUser.getRoleEntity().getClubOrgan();
 
         if (Objects.isNull(clubOrgan)) {
             throw new ClubException(ErrorCode.ACCESS_DENIED, ERROR_MESSAGE);
@@ -61,7 +61,7 @@ public class BankService {
     @Transactional
     public Response<BankDto> updateBank(BankDto bankDto) {
         UserEntity currentUser = securityService.getCurrentUser();
-        ClubOrganEntity clubOrgan = currentUser.getRole().getClubOrgan();
+        ClubOrganEntity clubOrgan = currentUser.getRoleEntity().getClubOrgan();
 
         if (Objects.isNull(clubOrgan)) {
             throw new ClubException(ErrorCode.ACCESS_DENIED, ERROR_MESSAGE);
@@ -133,7 +133,7 @@ public class BankService {
     @Transactional
     public Response<Void> removeBank(UUID id) {
         UserEntity currentUser = securityService.getCurrentUser();
-        ClubOrganEntity clubOrgan = currentUser.getRole().getClubOrgan();
+        ClubOrganEntity clubOrgan = currentUser.getRoleEntity().getClubOrgan();
 
         if (Objects.isNull(clubOrgan)) {
             throw new ClubException(ErrorCode.ACCESS_DENIED, ERROR_MESSAGE);

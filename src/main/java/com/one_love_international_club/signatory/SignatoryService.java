@@ -39,7 +39,7 @@ public class SignatoryService {
 
         UserEntity user = securityService.getCurrentUser();
 
-        ClubOrganEntity clubOrgan = user.getRole().getClubOrgan();
+        ClubOrganEntity clubOrgan = user.getRoleEntity().getClubOrgan();
 
         if (Objects.isNull(clubOrgan)) {
             throw new ClubException(ErrorCode.ACCESS_DENIED, ERROR_MESSAGE);
@@ -68,7 +68,7 @@ public class SignatoryService {
     @Transactional
     public Response<SignatoryDto> updateSignatory(SignatoryDto signatoryDto) {
         UserEntity user = securityService.getCurrentUser();
-        ClubOrganEntity clubOrgan = user.getRole().getClubOrgan();
+        ClubOrganEntity clubOrgan = user.getRoleEntity().getClubOrgan();
         if (Objects.isNull(clubOrgan)) {
             throw new ClubException(ErrorCode.ACCESS_DENIED, ERROR_MESSAGE);
         }
@@ -130,7 +130,7 @@ public class SignatoryService {
     @Transactional
     public Response<Void> removeSignatory(UUID id) {
         UserEntity user = securityService.getCurrentUser();
-        ClubOrganEntity clubOrgan = user.getRole().getClubOrgan();
+        ClubOrganEntity clubOrgan = user.getRoleEntity().getClubOrgan();
 
         if (Objects.isNull(clubOrgan)) {
             throw new ClubException(ErrorCode.ACCESS_DENIED, ERROR_MESSAGE);

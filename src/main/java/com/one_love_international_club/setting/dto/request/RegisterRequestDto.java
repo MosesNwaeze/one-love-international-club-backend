@@ -3,16 +3,12 @@ package com.one_love_international_club.setting.dto.request;
 import com.one_love_international_club.auth.dto.UserDto;
 import com.one_love_international_club.enums.Gender;
 import com.one_love_international_club.enums.MaritalStatus;
-import com.one_love_international_club.enums.UserType;
-import com.one_love_international_club.setting.dto.RoleDto;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
@@ -28,9 +24,6 @@ public class RegisterRequestDto {
     private String lastName;
 
     private String otherName;
-
-    @NotNull(message = "User role is required.")
-    private RoleDto role;
 
     private String title;
 

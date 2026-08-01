@@ -3,6 +3,7 @@ package com.one_love_international_club.income;
 import com.one_love_international_club.auth.entity.UserEntity;
 import com.one_love_international_club.auth.repo.UserRepository;
 import com.one_love_international_club.bank.BankEntity;
+import com.one_love_international_club.due.DueEntity;
 import com.one_love_international_club.exception.ClubException;
 import com.one_love_international_club.exception.ErrorCode;
 import com.one_love_international_club.security.SecurityService;
@@ -77,8 +78,8 @@ public class IncomeService {
                 .findById(incomeDto.getId())
                 .orElseThrow(() -> new ClubException(ErrorCode.ENTITY_NOT_FOUND,
                         "Income with id: " + incomeDto.getId() + " not found."));
-        if (Objects.nonNull(incomeDto.getIncomeType())) {
-            incomeEntity.setIncomeType(incomeDto.getIncomeType());
+        if (Objects.nonNull(incomeDto.getDue())) {
+            incomeEntity.setDue(modelMapper.map(incomeDto.getDue(), DueEntity.class));
         }
 
         if (StringUtils.isNotBlank(incomeDto.getProofOfPayment()) && StringUtils.isNotBlank(incomeDto.getProofOfPaymentPublicId())) {

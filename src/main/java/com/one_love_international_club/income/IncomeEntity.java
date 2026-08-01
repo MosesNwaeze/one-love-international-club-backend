@@ -1,8 +1,7 @@
 package com.one_love_international_club.income;
 
-import com.one_love_international_club.auth.entity.UserEntity;
 import com.one_love_international_club.bank.BankEntity;
-import com.one_love_international_club.enums.IncomeType;
+import com.one_love_international_club.due.DueEntity;
 import com.one_love_international_club.setting.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,9 +19,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IncomeEntity extends BaseEntity {
-    @Column(name = "type", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private IncomeType incomeType;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dues_id", nullable = false)
+    private DueEntity due;
 
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;

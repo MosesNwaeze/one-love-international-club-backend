@@ -6,6 +6,7 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_objectives_table.sql"/>
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20260108_create_dues_table.sql"/>
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262007_create_app_table.sql"/>
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_committee_table.sql"/>
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262507_create_club_organ_table_.sql"/>

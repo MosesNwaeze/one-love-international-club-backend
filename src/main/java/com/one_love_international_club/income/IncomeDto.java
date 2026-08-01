@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.one_love_international_club.bank.BankDto;
+import com.one_love_international_club.due.DueDto;
 import com.one_love_international_club.enums.IncomeType;
 import com.one_love_international_club.setting.dto.BaseDto;
 import jakarta.validation.constraints.NotNull;
@@ -20,8 +21,8 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IncomeDto extends BaseDto {
-    @NotNull(message = "Income type is required.")
-    private IncomeType incomeType;
+    @NotNull(message = "Due is required.")
+    private DueDto due;
 
     @NotNull(message = "Amount is required.")
     private BigDecimal amount;

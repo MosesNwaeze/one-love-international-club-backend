@@ -41,7 +41,6 @@ public class IncomeController {
 
     }
 
-
     @GetMapping("/{incomeId}")
     public ResponseEntity<Response<IncomeDto>> getIncome(
             @PathVariable("incomeId") UUID incomeId) {
@@ -63,7 +62,6 @@ public class IncomeController {
 
         return ResponseEntity.status(StatusCodeResolver.getHttpStatus(income.getCode()))
                 .body(income);
-
     }
 
     @GetMapping("/all-expenses")

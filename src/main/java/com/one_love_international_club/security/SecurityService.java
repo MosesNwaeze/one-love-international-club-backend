@@ -33,8 +33,8 @@ public class SecurityService {
     }
 
     public UserEntity getCurrentUser() {
-        String email = (String) SecurityContextHolder
-                .getContext().getAuthentication().getPrincipal();
+        String email = SecurityContextHolder
+                .getContext().getAuthentication().getName();
 
        return userRepository.findByEmail(email).orElse(null);
     }

@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.one_love_international_club.auth.dto.UserDto;
-import com.one_love_international_club.income.IncomeDto;
-import com.one_love_international_club.income.IncomeEntity;
+import com.one_love_international_club.penalty.PenaltyDto;
 import com.one_love_international_club.setting.dto.BaseDto;
 import com.one_love_international_club.signatory.SignatoryDto;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +12,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -39,5 +37,5 @@ public class BankDto extends BaseDto {
     private Set<SignatoryDto> signatories;
 
     @JsonIgnore
-    private Set<IncomeDto> incomes;
+    private Set<PenaltyDto> incomes;
 }

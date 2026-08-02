@@ -23,5 +23,7 @@
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_signatory_table.sql"/>
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_expenses_table.sql"/>
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_income_table.sql"/>
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20260108_create_post_table.sql"/>
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20260108_create_poll_table.sql"/>
 
 </databaseChangeLog>

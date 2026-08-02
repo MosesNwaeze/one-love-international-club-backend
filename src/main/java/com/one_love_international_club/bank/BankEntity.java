@@ -1,7 +1,7 @@
 package com.one_love_international_club.bank;
 
 import com.one_love_international_club.auth.entity.UserEntity;
-import com.one_love_international_club.income.IncomeEntity;
+import com.one_love_international_club.penalty.PenaltyEntity;
 import com.one_love_international_club.setting.entity.BaseEntity;
 import com.one_love_international_club.signatory.SignatoryEntity;
 import jakarta.persistence.*;
@@ -37,5 +37,5 @@ public class BankEntity extends BaseEntity {
     private Set<SignatoryEntity> signatories = new HashSet<>();
 
     @OneToMany(mappedBy = "bank")
-    private Set<IncomeEntity> incomes = new HashSet<>();
+    private Set<PenaltyEntity> incomes = new HashSet<>();
 }

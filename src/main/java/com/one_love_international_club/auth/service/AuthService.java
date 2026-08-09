@@ -10,7 +10,6 @@ import com.one_love_international_club.auth.repo.UserLoginTokenRepository;
 import com.one_love_international_club.config.JwtConfig;
 import com.one_love_international_club.enums.ApprovalStatus;
 import com.one_love_international_club.setting.dto.Response;
-import com.one_love_international_club.setting.dto.RoleDto;
 import com.one_love_international_club.setting.dto.Status;
 import com.one_love_international_club.setting.dto.request.LoginRequestDto;
 import com.one_love_international_club.setting.dto.request.PasswordResetRequestDto;
@@ -18,7 +17,6 @@ import com.one_love_international_club.setting.dto.request.RegisterRequestDto;
 import com.one_love_international_club.setting.dto.response.LoginResponseDto;
 import com.one_love_international_club.setting.dto.response.PaginatedResponse;
 import com.one_love_international_club.setting.entity.PasswordResetToken;
-import com.one_love_international_club.setting.entity.RoleEntity;
 import com.one_love_international_club.setting.entity.UserLoginToken;
 import com.one_love_international_club.exception.ClubException;
 import com.one_love_international_club.exception.ErrorCode;
@@ -47,7 +45,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -297,6 +294,7 @@ public class AuthService {
                 NEW_lLOGIN,
                 "New Login activity detect. Let us know if you not the one"
         );
+
 
         return LoginResponseDto.builder()
                 .accessToken(tokenDto.getAccessToken())

@@ -25,5 +25,6 @@
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20262207_create_income_table.sql"/>
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20260108_create_post_table.sql"/>
     <include author="moses.nwaeze" file="classpath:db/changelog/changes/20260108_create_poll_table.sql"/>
+    <include author="moses.nwaeze" file="classpath:db/changelog/changes/20260908_insert_admin_record.sql"/>
 
 </databaseChangeLog>

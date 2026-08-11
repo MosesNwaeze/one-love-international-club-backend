@@ -53,7 +53,7 @@ public class PenaltyController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('Financial Secretary, Treasurer, President')")
+    @PreAuthorize("hasAnyRole('FINANCIAL SECRETARY, TREASURER, PRESIDENT')")
     public ResponseEntity<Response<PaginatedResponse<PenaltyDto>>> getAllPenalty(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "5") int size) {

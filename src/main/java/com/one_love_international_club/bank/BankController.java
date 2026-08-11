@@ -21,7 +21,7 @@ public class BankController {
     private final BankService bankService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('Treasurer', 'Financial Secretary', 'President')")
+    @PreAuthorize("hasAnyRole('TREASURER', 'FINANCIAL SECRETARY', 'PRESIDENT')")
     public ResponseEntity<Response<BankDto>> createBank(
             @Valid @RequestBody BankDto bankDto
     ) {
@@ -32,7 +32,7 @@ public class BankController {
     }
 
     @PatchMapping
-    @PreAuthorize("hasAnyRole('Treasurer', 'Financial Secretary', 'President')")
+    @PreAuthorize("hasAnyRole('TREASURER', 'FINANCIAL SECRETARY', 'PRESIDENT')")
     public ResponseEntity<Response<BankDto>> updateBank(
             @RequestBody BankDto bankDto
     ) {

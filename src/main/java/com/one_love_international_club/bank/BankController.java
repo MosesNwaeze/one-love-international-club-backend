@@ -61,7 +61,7 @@ public class BankController {
     }
 
     @DeleteMapping("/{bankId}")
-    @PreAuthorize("hasAnyRole('Treasurer', 'Financial Secretary', 'President')")
+    @PreAuthorize("hasAnyRole('TREASURER', 'FINANCIAL SECRETARY', 'PRESIDENT')")
     public ResponseEntity<Response<Void>> deleteBank(
             @PathVariable("bankId") UUID bankId
     ) {

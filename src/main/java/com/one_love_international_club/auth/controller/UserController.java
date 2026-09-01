@@ -49,7 +49,6 @@ public class UserController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('Chief Provost')")
     public ResponseEntity<Response<PaginatedResponse<UserDto>>> findAllUsers(
             @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(value = "size", defaultValue = "5", required = false) Integer size,

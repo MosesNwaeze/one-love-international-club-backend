@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -15,7 +16,7 @@ import java.util.List;
 @ConfigurationProperties(prefix = "app.cors")
 public class WebConfig implements WebMvcConfigurer {
 
-    private List<String> allowedOrigins;
+    private List<String> allowedOrigins = new ArrayList<>();
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

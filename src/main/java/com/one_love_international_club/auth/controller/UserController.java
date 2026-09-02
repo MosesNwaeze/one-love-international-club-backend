@@ -112,5 +112,13 @@ public class UserController {
                 .body(response);
     }
 
+    @GetMapping("/current-user")
+    public ResponseEntity<Response<UserDto>> getCurrentUser() {
+        Response<UserDto> response = userService.getCurrentUser();
+        return ResponseEntity
+                .status(StatusCodeResolver.getHttpStatus(response.getCode()))
+                .body(response);
+    }
+
 
 }

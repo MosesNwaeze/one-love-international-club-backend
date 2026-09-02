@@ -3,6 +3,7 @@ package com.one_love_international_club.auth.service;
 import com.one_love_international_club.auth.dto.UserDto;
 import com.one_love_international_club.auth.entity.UserEntity;
 import com.one_love_international_club.auth.repo.UserRepository;
+import com.one_love_international_club.security.SecurityService;
 import com.one_love_international_club.setting.dto.Response;
 import com.one_love_international_club.setting.dto.Status;
 import com.one_love_international_club.setting.dto.response.PaginatedResponse;
@@ -29,6 +30,7 @@ public class UserService {
 
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
+    private final SecurityService securityService;
 
 
     public Response<PaginatedResponse<UserDto>> getPendingUsers(int page, int size, String search) {
@@ -37,6 +39,21 @@ public class UserService {
                 .findUsers(Status.PENDING, search, pageable);
 
         return getUserByStatus(pages, page, size, "Pending members.");
+
+    }
+
+
+    public Response<UserDto> getCurrentUser() {
+        UserEntity currentUser = securityService.getCurrentUser();
+
+        UserDto userDto = modelMapper.map(currentUser, UserDto.class);
+
+        return Response.<UserDto>builder()
+                .data(userDto)
+                .code(200)
+                .timestamp(LocalDateTime.now())
+                .status(Status.SUCCESSFUL)
+                .build();
 
     }
 

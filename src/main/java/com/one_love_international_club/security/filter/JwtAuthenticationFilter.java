@@ -93,7 +93,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private UserEntity getUser(String email) {
         return userRepository
-                .findByEmail(email)
+                .findByEmailIgnoreCase(email)
                 .orElseThrow(() -> new ClubException(ErrorCode.ENTITY_NOT_FOUND, "User with email: " + email + " not found"));
     }
 

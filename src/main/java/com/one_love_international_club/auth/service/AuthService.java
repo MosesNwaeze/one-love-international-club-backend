@@ -279,7 +279,7 @@ public class AuthService {
 
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
 
-        UserEntity userEntity = userRepository.findByEmail(loginRequestDto.getEmail())
+        UserEntity userEntity = userRepository.findByEmailIgnoreCase(loginRequestDto.getEmail())
                 .orElseThrow(() -> new ClubException(
                         ErrorCode.NOT_AUTHENTICATED, INVALID_LOGIN_MESSAGE));
 
@@ -342,7 +342,7 @@ public class AuthService {
     public void forgotPassword(String email) {
 
         try {
-            UserEntity userEntity = userRepository.findByEmail(email)
+            UserEntity userEntity = userRepository.findByEmailIgnoreCase(email)
                     .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
 
             // Remove any existing reset tokens
@@ -361,6 +361,12 @@ public class AuthService {
                     .build();
 
             passwordResetTokenRepository.save(passwordResetToken);
+
+            emailService.sendEmail(
+                    email,
+                    "Password Reset Token",
+                    passwordResetToken.getToken()
+            );
 
 
         } catch (ResourceNotFoundException e) {

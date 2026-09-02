@@ -36,7 +36,7 @@ public class SecurityService {
         String email = SecurityContextHolder
                 .getContext().getAuthentication().getName();
 
-       return userRepository.findByEmail(email).orElse(null);
+       return userRepository.findByEmailIgnoreCase(email).orElse(null);
     }
 
 

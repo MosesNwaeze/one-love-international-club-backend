@@ -1,4 +1,4 @@
-package com.api.vdtcommsws.util;
+package com.one_love_international_club.util;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

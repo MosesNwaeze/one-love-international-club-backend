@@ -1,4 +1,4 @@
-package com.api.vdtcommsws.util;
+package com.one_love_international_club.util;
 
 import java.security.SecureRandom;
 import java.util.Random;

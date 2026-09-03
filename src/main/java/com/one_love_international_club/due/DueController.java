@@ -20,7 +20,7 @@ public class DueController {
     private final DueService dueService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('FINANCIAL SECRETARY', 'TREASURER')")
+    @PreAuthorize("hasAnyRole('FINANCIAL SECRETARY', 'TREASURER', 'ADMIN')")
     public ResponseEntity<Response<DueDto>> createDue(
             @Valid @RequestBody DueDto dueDto
     ) {
@@ -31,7 +31,7 @@ public class DueController {
     }
 
     @PatchMapping
-    @PreAuthorize("hasAnyRole('FINANCIAL SECRETARY', 'TREASURER')")
+    @PreAuthorize("hasAnyRole('FINANCIAL SECRETARY', 'TREASURER', 'ADMIN')")
     public ResponseEntity<Response<DueDto>> updateDue(
             @RequestBody DueDto dueDto
     ) {
@@ -60,7 +60,7 @@ public class DueController {
     }
 
     @DeleteMapping("/{dueId}")
-    @PreAuthorize("hasAnyRole('FINANCIAL SECRETARY', 'TREASURER')")
+    @PreAuthorize("hasAnyRole('FINANCIAL SECRETARY', 'TREASURER', 'ADMIN')")
     public ResponseEntity<Response<Void>> deleteDue(
             @PathVariable("dueId") UUID bankId
     ) {

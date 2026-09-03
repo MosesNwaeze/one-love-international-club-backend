@@ -25,7 +25,7 @@ public class UserController {
     private final UserService userService;
 
     @PutMapping("/approve-user")
-    @PreAuthorize("hasRole('CHIEF PROVOST')")
+    @PreAuthorize("hasAnyRole('CHIEF PROVOST', 'ADMIN')")
     public ResponseEntity<Response<Void>> approveUser(
             @Valid @RequestBody ApproveUserDto approveUserDto
     ) {
@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/all-unapproved-users")
-    @PreAuthorize("hasRole('CHIEF PROVOST')")
+    @PreAuthorize("hasAnyRole('CHIEF PROVOST', 'ADMIN')")
     public ResponseEntity<Response<PaginatedResponse<UserDto>>> findAllUnapprovedUsers(
             @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(value = "size", defaultValue = "5", required = false) Integer size

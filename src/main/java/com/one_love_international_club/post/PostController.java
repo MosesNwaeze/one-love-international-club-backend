@@ -21,7 +21,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    @PreAuthorize("hasRole('SECRETARY')")
+    @PreAuthorize("hasAnyRole('SECRETARY', 'ADMIN')")
     public ResponseEntity<Response<PostDto>> createPost(
             @Valid @RequestBody PostDto postDto) {
         Response<PostDto> response = postService.create(postDto);
@@ -33,7 +33,7 @@ public class PostController {
     }
 
     @PutMapping
-    @PreAuthorize("hasRole('SECRETARY')")
+    @PreAuthorize("hasAnyRole('SECRETARY', 'ADMIN')")
     public ResponseEntity<Response<PostDto>> updatePost(
             @Valid @RequestBody PostDto postDto) {
         Response<PostDto> response = postService.update(postDto);
@@ -69,7 +69,7 @@ public class PostController {
     }
 
     @DeleteMapping("/{postId}")
-    @PreAuthorize("hasRole('SECRETARY')")
+    @PreAuthorize("hasAnyRole('SECRETARY', 'ADMIN')")
     public ResponseEntity<Response<Void>> deletePost(
             @PathVariable("postId") UUID postId) {
         Response<Void> response = postService.deletePost(postId);

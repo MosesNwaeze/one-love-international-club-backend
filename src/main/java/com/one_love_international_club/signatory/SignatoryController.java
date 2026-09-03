@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequestMapping("/v1/signatories")
 @Tag(name = "Signatory Controller", description = "Controller that manages all the endpoint regarding signatory.")
 @RequiredArgsConstructor
-@PreAuthorize("hasAnyRole('Treasurer', 'Financial Secretary', 'President')")
+@PreAuthorize("hasAnyRole('Treasurer', 'Financial Secretary', 'President', 'ADMIN')")
 public class SignatoryController {
 
     private final SignatoryService signatoryService;

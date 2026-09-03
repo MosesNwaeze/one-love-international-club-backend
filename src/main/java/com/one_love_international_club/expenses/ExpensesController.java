@@ -18,7 +18,7 @@ public class ExpensesController {
     private final ExpensesService expensesService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('FINANCIAL SECRETARY,TREASURER,PRESIDENT')")
+    @PreAuthorize("hasAnyRole('FINANCIAL SECRETARY,TREASURER,PRESIDENT', 'ADMIN')")
     public ResponseEntity<Response<ExpensesDto>> createExpense(
             @Valid @RequestBody ExpensesDto expensesDto
     ) {
@@ -31,7 +31,7 @@ public class ExpensesController {
 
 
     @PatchMapping
-    @PreAuthorize("hasAnyRole('FINANCIAL SECRETARY, TREASURER, PRESIDENT')")
+    @PreAuthorize("hasAnyRole('FINANCIAL SECRETARY, TREASURER, PRESIDENT', 'ADMIN')")
     public ResponseEntity<Response<ExpensesDto>> updateExpense(
             @RequestBody ExpensesDto expensesDto
     ) {
@@ -43,7 +43,7 @@ public class ExpensesController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('FINANCIAL SECRETARY, TREASURER, PRESIDENT')")
+    @PreAuthorize("hasAnyRole('FINANCIAL SECRETARY, TREASURER, PRESIDENT', 'ADMIN')")
     public ResponseEntity<Response<PaginatedResponse<ExpensesDto>>> Expenses(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "5") int size

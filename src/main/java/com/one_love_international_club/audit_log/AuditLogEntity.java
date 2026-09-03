@@ -37,7 +37,8 @@ public class AuditLogEntity implements Auditable {
     @Column(name = "entity_type")
     private String entityType;
 
-    @Column(name = "entity_id")
+    @Column(name = "entity_id", columnDefinition = "UUID")
+    @JdbcTypeCode(SqlTypes.UUID)
     private UUID entityId;
 
     @Column(name = "old_value", columnDefinition = "jsonb")

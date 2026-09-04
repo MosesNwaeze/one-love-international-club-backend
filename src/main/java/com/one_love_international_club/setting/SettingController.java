@@ -81,7 +81,7 @@ public class SettingController {
     }
 
     @GetMapping("/roles")
-    @PreAuthorize("hasRole('CHIEF PROVOST')")
+    @PreAuthorize("hasAnyRole('CHIEF PROVOST', 'ADMIN')")
     public ResponseEntity<List<RoleDto>> roles() {
         List<RoleDto> roleEntities = roleRepository
                 .findAll()

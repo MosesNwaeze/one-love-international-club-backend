@@ -3,6 +3,7 @@ package com.one_love_international_club.auth.service;
 import com.one_love_international_club.auth.dto.UserDto;
 import com.one_love_international_club.auth.entity.UserEntity;
 import com.one_love_international_club.auth.repo.UserRepository;
+import com.one_love_international_club.enums.ApprovalStatus;
 import com.one_love_international_club.security.SecurityService;
 import com.one_love_international_club.setting.dto.Response;
 import com.one_love_international_club.setting.dto.Status;
@@ -75,10 +76,15 @@ public class UserService {
 
     }
 
-    public Response<PaginatedResponse<UserDto>> getAllUsers(int page, int size, String search) {
+    public Response<PaginatedResponse<UserDto>> getAllUsers(
+            int page,
+            int size,
+            String search,
+            ApprovalStatus approvalStatus
+    ) {
         Pageable pageable = PageRequest.of(page, size);
         Page<UserEntity> pages = userRepository
-                .findAllUsers(search, pageable);
+                .findAllUsers(search, approvalStatus, pageable);
 
         return getUserByStatus(pages, page, size, "All members.");
 

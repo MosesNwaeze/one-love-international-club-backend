@@ -5,6 +5,7 @@ import com.one_love_international_club.auth.dto.ApproveUserDto;
 import com.one_love_international_club.auth.dto.UserDto;
 import com.one_love_international_club.auth.service.AuthService;
 import com.one_love_international_club.auth.service.UserService;
+import com.one_love_international_club.enums.ApprovalStatus;
 import com.one_love_international_club.setting.dto.Response;
 import com.one_love_international_club.setting.dto.response.PaginatedResponse;
 import com.one_love_international_club.util.StatusCodeResolver;
@@ -52,10 +53,12 @@ public class UserController {
     public ResponseEntity<Response<PaginatedResponse<UserDto>>> findAllUsers(
             @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(value = "size", defaultValue = "5", required = false) Integer size,
-            @RequestParam(value = "search", required = false) String search
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "status", required = false) ApprovalStatus status
+
     ) {
         Response<PaginatedResponse<UserDto>> response = userService
-                .getAllUsers(page, size, search);
+                .getAllUsers(page, size, search, status);
         return ResponseEntity
                 .status(StatusCodeResolver.getHttpStatus(response.getCode()))
                 .body(response);

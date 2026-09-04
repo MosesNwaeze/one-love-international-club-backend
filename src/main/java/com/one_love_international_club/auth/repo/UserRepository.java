@@ -80,11 +80,16 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
                 LOWER(users.lastName) LIKE LOWER(CONCAT('%', :search, '%')) OR
                 LOWER(users.email) LIKE LOWER(CONCAT('%', :search, '%')) OR
                 LOWER(role.name) LIKE LOWER(CONCAT('%', :search, '%')) OR
-                LOWER(clubOrgan.name) LIKE LOWER(CONCAT('%', :search, '%'))
+                LOWER(clubOrgan.name) LIKE LOWER(CONCAT('%', :search, '%')) OR
+                 (
+                    :approvalStatus IS NOT NULL AND
+                    users.approvalStatus = :approvalStatus
+                 )
             )
             ORDER BY users.lastName ASC, users.firstName ASC
             """)
     Page<UserEntity> findAllUsers(
             @Param("search") String search,
+            @Param("approvalStatus") ApprovalStatus approvalStatus,
             Pageable pageable);
 }

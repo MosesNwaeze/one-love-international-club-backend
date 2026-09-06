@@ -13,10 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,6 +87,21 @@ public class SettingController {
                 .toList();
 
         return ResponseEntity.ok(roleEntities);
+    }
+
+    @GetMapping("/download-logo")
+    public ResponseEntity<Resource> getLogo() throws IOException {
+        ClassPathResource resource = new ClassPathResource("images/logo.jpeg");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentDisposition(ContentDisposition.attachment().filename(resource.getFilename()).build());
+        headers.setContentLength(resource.contentLength());
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .body(resource);
     }
 
 

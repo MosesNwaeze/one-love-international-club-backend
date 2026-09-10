@@ -120,7 +120,7 @@ public class UserService {
 
 
     @Transactional
-    public Response<UserDto> changeRole(UUID userId, UUID roleId){
+    public Response<UserDto> changeRole(UUID userId, UUID roleId) {
 
         UserEntity user = userRepository
                 .findById(userId)
@@ -133,9 +133,12 @@ public class UserService {
 
         user.setRoleEntity(roleEntity);
 
-        userRepository.save(user);
+        UserEntity updated = userRepository.save(user);
 
         UserDto userDto = modelMapper.map(user, UserDto.class);
+
+        log.info("User with id {} changes  role from {} to {}", userId,
+                user.getRoleEntity().getName(), updated.getRoleEntity().getName());
 
         return Response.<UserDto>builder()
                 .message("User role updated successfully.")

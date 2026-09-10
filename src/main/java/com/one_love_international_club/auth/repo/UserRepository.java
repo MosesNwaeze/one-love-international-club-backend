@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -92,4 +93,13 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
             @Param("search") String search,
             @Param("approvalStatus") ApprovalStatus approvalStatus,
             Pageable pageable);
+
+
+    @Query("""
+            SELECT users FROM UserEntity users
+            join users.roleEntity role
+            join role.clubOrgan clubOrgan
+            WHERE LOWER(clubOrgan.name) = LOWER(:clubOrgan)
+            """)
+    List<UserEntity> findAllExecutiveMembers(@Param("clubOrgan") String clubOrgan);
 }

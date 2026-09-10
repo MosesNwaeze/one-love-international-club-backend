@@ -1,6 +1,7 @@
 package com.one_love_international_club.resignation;
 
 import com.one_love_international_club.auth.entity.UserEntity;
+import com.one_love_international_club.auth.repo.UserRepository;
 import com.one_love_international_club.enums.ResignationStatus;
 import com.one_love_international_club.exception.ClubException;
 import com.one_love_international_club.exception.ErrorCode;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -38,6 +40,7 @@ public class ResignationService {
     private final FileService fileService;
     private final EmailService emailService;
     private final AppRepository appRepository;
+    private final UserRepository userRepository;
 
     private static final String UPLOAD_PATH = "resignation";
 
@@ -64,6 +67,22 @@ public class ResignationService {
         ResignationEntity saved = resignationRepository.save(resignationEntity);
 
         log.info("You resignation is awaiting approval, {}", resignationEntity);
+
+        List<UserEntity> executive = userRepository.findAllExecutiveMembers("executive");
+
+
+        executive.forEach(userEntity -> {
+
+            String body = String.format(
+                    "User with name %s is willing to resign from one love international nobel club. His application is awaiting review.",
+                    currentUser.getLastName().concat(" ").concat(currentUser.getFirstName())
+            );
+            emailService.sendEmail(
+                    currentUser.getEmail(),
+                    "Application for resignation.",
+                    body
+            );
+        });
 
         return Response.<ResignationDto>builder()
                 .message("You resignation is awaiting approval")

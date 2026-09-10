@@ -1,9 +1,12 @@
 package com.one_love_international_club.auth.service;
 
+import com.one_love_international_club.aop.AuditAnnotation;
 import com.one_love_international_club.auth.dto.UserDto;
 import com.one_love_international_club.auth.entity.UserEntity;
 import com.one_love_international_club.auth.repo.UserRepository;
 import com.one_love_international_club.enums.ApprovalStatus;
+import com.one_love_international_club.enums.AuditAction;
+import com.one_love_international_club.enums.OperationType;
 import com.one_love_international_club.exception.ClubException;
 import com.one_love_international_club.exception.ErrorCode;
 import com.one_love_international_club.security.SecurityService;
@@ -119,6 +122,7 @@ public class UserService {
     }
 
 
+//    @AuditAnnotation(entityId = "#userId", action = AuditAction.UPDATE, operation = OperationType.MERGE)
     @Transactional
     public Response<UserDto> changeRole(UUID userId, UUID roleId) {
 

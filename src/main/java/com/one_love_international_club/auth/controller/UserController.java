@@ -2,6 +2,7 @@ package com.one_love_international_club.auth.controller;
 
 
 import com.one_love_international_club.auth.dto.ApproveUserDto;
+import com.one_love_international_club.auth.dto.ChangeRoleDto;
 import com.one_love_international_club.auth.dto.UserDto;
 import com.one_love_international_club.auth.service.AuthService;
 import com.one_love_international_club.auth.service.UserService;
@@ -123,5 +124,16 @@ public class UserController {
                 .body(response);
     }
 
+
+    @PutMapping("/change-role")
+    public ResponseEntity<Response<UserDto>> changeRole(
+            @Valid ChangeRoleDto changeRoleDto
+    ) {
+        Response<UserDto> response = userService.changeRole(changeRoleDto.getUserId(),
+                changeRoleDto.getRoleId());
+        return ResponseEntity
+                .status(StatusCodeResolver.getHttpStatus(response.getCode()))
+                .body(response);
+    }
 
 }

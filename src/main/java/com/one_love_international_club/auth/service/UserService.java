@@ -4,10 +4,14 @@ import com.one_love_international_club.auth.dto.UserDto;
 import com.one_love_international_club.auth.entity.UserEntity;
 import com.one_love_international_club.auth.repo.UserRepository;
 import com.one_love_international_club.enums.ApprovalStatus;
+import com.one_love_international_club.exception.ClubException;
+import com.one_love_international_club.exception.ErrorCode;
 import com.one_love_international_club.security.SecurityService;
 import com.one_love_international_club.setting.dto.Response;
 import com.one_love_international_club.setting.dto.Status;
 import com.one_love_international_club.setting.dto.response.PaginatedResponse;
+import com.one_love_international_club.setting.entity.RoleEntity;
+import com.one_love_international_club.setting.repo.RoleRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +23,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -32,6 +38,7 @@ public class UserService {
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
     private final SecurityService securityService;
+    private final RoleRepository roleRepository;
 
 
     public Response<PaginatedResponse<UserDto>> getPendingUsers(int page, int size, String search) {
@@ -108,6 +115,33 @@ public class UserService {
                 .status(Status.SUCCESSFUL)
                 .timestamp(LocalDateTime.now())
                 .data(response)
+                .build();
+    }
+
+
+    @Transactional
+    public Response<UserDto> changeRole(UUID userId, UUID roleId){
+
+        UserEntity user = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new ClubException(
+                        ErrorCode.ENTITY_NOT_FOUND, "User with id " + userId + " not found"));
+
+        RoleEntity roleEntity = roleRepository
+                .findById(roleId)
+                .orElseThrow(() -> new ClubException(ErrorCode.ENTITY_NOT_FOUND, "Role with id " + roleId + " not found"));
+
+        user.setRoleEntity(roleEntity);
+
+        userRepository.save(user);
+
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+
+        return Response.<UserDto>builder()
+                .message("User role updated successfully.")
+                .code(HttpStatus.OK.value())
+                .timestamp(LocalDateTime.now())
+                .data(userDto)
                 .build();
     }
 

@@ -71,6 +71,12 @@ public class ResignationService {
         List<UserEntity> executive = userRepository.findAllExecutiveMembers("executive");
 
 
+        emailService.sendEmail(
+                currentUser.getEmail(),
+                "Application for resignation",
+                "Your application for resignation has been sent successfully."
+        );
+
         executive.forEach(userEntity -> {
 
             String body = String.format(
@@ -78,7 +84,7 @@ public class ResignationService {
                     currentUser.getLastName().concat(" ").concat(currentUser.getFirstName())
             );
             emailService.sendEmail(
-                    currentUser.getEmail(),
+                    userEntity.getEmail(),
                     "Application for resignation.",
                     body
             );

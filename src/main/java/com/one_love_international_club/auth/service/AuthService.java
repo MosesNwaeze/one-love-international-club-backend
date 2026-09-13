@@ -73,6 +73,22 @@ public class AuthService {
 
     @Transactional
     public Response<Void> register(RegisterRequestDto requestDto) {
+
+        boolean existsByPhoneNumber = userRepository
+                .existsByPhoneNumber(requestDto.getPhoneNumber());
+
+        Boolean existsByEmail = userRepository.existsByEmail(requestDto.getEmail());
+
+        if (existsByPhoneNumber) {
+
+            throw new ClubException(ErrorCode.VALIDATION_ERROR, "Phone number already exists.");
+        }
+        
+        if(existsByEmail){
+
+            throw new ClubException(ErrorCode.VALIDATION_ERROR, "Email already exists.");
+        }
+
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         UserEntity userLogin = modelMapper
                 .map(requestDto, UserEntity.class);

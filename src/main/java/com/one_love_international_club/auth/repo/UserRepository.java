@@ -102,4 +102,8 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
             WHERE LOWER(clubOrgan.name) = LOWER(:clubOrgan)
             """)
     List<UserEntity> findAllExecutiveMembers(@Param("clubOrgan") String clubOrgan);
+
+    Boolean existsByPhoneNumber(String phoneNumber);
+
+    Boolean existsByEmail(String email);
 }

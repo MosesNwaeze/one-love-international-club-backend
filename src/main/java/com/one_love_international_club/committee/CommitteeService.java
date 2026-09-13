@@ -1,5 +1,6 @@
 package com.one_love_international_club.committee;
 
+import com.one_love_international_club.auth.dto.UserDto;
 import com.one_love_international_club.auth.entity.UserEntity;
 import com.one_love_international_club.exception.ClubException;
 import com.one_love_international_club.exception.ErrorCode;
@@ -18,9 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -142,6 +142,32 @@ public class CommitteeService {
                 .build();
 
 
+    }
+
+    @Transactional
+    public Response<CommitteeDto> addMember(AddMembersDto addMembersDto) {
+
+        CommitteeEntity committee = committeeRepository
+                .findById(addMembersDto.getCommitteeId())
+                .orElseThrow(() -> new ClubException(ErrorCode.ENTITY_NOT_FOUND,
+                        "Committee with id " + addMembersDto.getCommitteeId() + " not found"));
+
+        Set<UserEntity> membersSet = addMembersDto
+                .getMembers()
+                .stream()
+                .map(item -> modelMapper.map(item, UserEntity.class))
+                .collect(Collectors.toSet());
+
+        committee.setMember(membersSet);
+
+        CommitteeEntity save = committeeRepository.save(committee);
+
+        return Response.<CommitteeDto>builder()
+                .data(modelMapper.map(save, CommitteeDto.class))
+                .timestamp(LocalDateTime.now())
+                .status(Status.SUCCESSFUL)
+                .code(HttpStatus.OK.value())
+                .build();
     }
 
     @Transactional

@@ -29,7 +29,7 @@ public class CommitteeEntity extends BaseEntity {
     @Column(name = "total_members_allowed", nullable = false)
     private Integer totalMembersAllowed;
 
-    @Column(name = "resolution_report")
+    @Column(name = "resolution_report", columnDefinition = "TEXT")
     private String resolutionReport;
 
     @Column(name = "amount_received")

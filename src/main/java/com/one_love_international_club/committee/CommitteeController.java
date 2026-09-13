@@ -85,4 +85,17 @@ public class CommitteeController {
         return ResponseEntity.status(StatusCodeResolver.getHttpStatus(committee.getCode()))
                 .body(committee);
     }
+
+
+    @PutMapping("/add-members-to-committee")
+    public ResponseEntity<Response<CommitteeDto>> addMembersToCommittee(
+            @Valid @RequestBody AddMembersDto addMembersDto
+    ) {
+
+        Response<CommitteeDto> committee = committeeService
+                .addMember(addMembersDto);
+
+        return ResponseEntity.status(StatusCodeResolver.getHttpStatus(committee.getCode()))
+                .body(committee);
+    }
 }
